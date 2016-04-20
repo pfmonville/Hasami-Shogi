@@ -2,7 +2,6 @@ package controller.iaUtils;
 
 import java.util.ArrayList;
 
-import controller.GameController;
 import controller.IAController;
 import controller.PlateauController;
 import model.Case;
@@ -21,10 +20,23 @@ public class NegaMax {
 	
 	private static EvaluatePosition.Setup setup;
 
+	/**
+	 * 
+	 * @param numeroJoueur le numéro du joueur actuel
+	 * @return le numéro de son adversaire
+	 */
 	public static int getAutreJoueur(int numeroJoueur){
 		return 1 - numeroJoueur;
 	}
 
+	/**
+	 * algorithme récursif permettant de parcourir l'arbre des coups possible en élaguant les moins bonnes branches avec une meilleur implémentation que alphaBeta
+	* @param alpha
+	 * @param beta
+	 * @param profondeur la profondeur actuelle
+	 * @param numeroJoueurActuel le numéro du joueur dont les coups possibles vont être considérés pendant cet appel
+	 * @return le score du meilleur fils
+	 */
 	public static double negaMax(double alpha, double beta, int profondeur, int numeroJoueurActuel){
 
 		if(profondeur == maxProfondeur){
@@ -83,16 +95,16 @@ public class NegaMax {
 					Case caseOrigine = deplacement.getPion().getCasePlateau();
 					double scoreActuel = 0;
 					for(Case casePlateau: deplacement.getCases()){
-//						if(profondeur == 0 && caseAlreadyPlayed == casePlateau && pionAlreadyPlayed == deplacement.getPion()){
-//							continue;
-//						}
+						if(profondeur == 0 && caseAlreadyPlayed == casePlateau && pionAlreadyPlayed == deplacement.getPion()){
+							continue;
+						}
 						//**************************************************************
 						//JOUER LE COUP
 
 						ArrayList<Pion> pionsASupprimer = null;
 						//on joue le coup
 						deplacerPion(deplacement.getPion(), casePlateau);
-						//vÃ©rification des pions supprimÃ©s
+						//vérification des pions supprimés
 						pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
 						//suppression des pions
 						supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
@@ -100,7 +112,7 @@ public class NegaMax {
 						//**************************************************************
 
 
-						//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas Ã  explorer l'arbre
+						//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à  explorer l'arbre
 						if(IAController.isGameOver(pionsIA, pionsAdversaire)){
 							scoreActuel = Double.MAX_VALUE;
 						}else{
@@ -121,7 +133,7 @@ public class NegaMax {
 						//**************************************************************
 						//RECUPERATION DES COUPS A PROFONDEUR 0
 
-						//si on Ã  profondeur 0, on sauve le coup potentiel dans une liste des coups Ã  jouer par l'ia
+						//si on à  profondeur 0, on sauve le coup potentiel dans une liste des coups à  jouer par l'ia
 						if(profondeur == 0){
 							coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), casePlateau, scoreActuel));
 						}
@@ -148,15 +160,29 @@ public class NegaMax {
 		}//Fin du else profondeur max pas atteinte
 	}
 
+	
+	/**
+	 * permet de déplacer le pion sans toucher à l'UI
+	 * @param pion le pion à déplacer
+	 * @param casePlateau le plateau
+	 */
 	private static void deplacerPion(Pion pion, Case casePlateau){
 		//d'abord on supprime la reference du pion dans l'ancienne case
 		pion.getCasePlateau().setPion(null);
-		//on met Ã  jour le pion
+		//on met à  jour le pion
 		pion.setCasePlateau(casePlateau);
-		//on met Ã  jour la nouvelle case
+		//on met à  jour la nouvelle case
 		casePlateau.setPion(pion);
 	}
 
+	
+	/**
+	 * permet de supprimer des pions sans toucher à l'UI, s'occupe tout seul de trouver à qui appartient les pions à supprimer
+	 * @param pions la liste de pions à supprimer
+	 * @param liste1 la liste des pions du joueur1
+	 * @param liste2 la liste des pions du joueurs2
+	 * @param plateau le plateau de jeu
+	 */
 	private static void supprimerPions(ArrayList<Pion> pions, ArrayList<Pion> liste1, ArrayList<Pion> liste2, Case[][] plateau){
 		if(pions.isEmpty()){
 			return;
@@ -166,11 +192,19 @@ public class NegaMax {
 		}
 	}
 
+	
+	/**
+	 * permet de supprimer un pion sans toucher à l'IU
+	 * @param pion le pion à supprimer
+	 * @param liste1 la liste des pions du joueur1
+	 * @param liste2 la liste des pions du joueur2
+	 * @param plateau le plateau de jeu
+	 */
 	private static void supprimerPion(Pion pion, ArrayList<Pion> liste1, ArrayList<Pion> liste2, Case[][] plateau){
-		//on supprime la rÃ©fÃ©rence du pion pour la case
+		//on supprime la référence du pion pour la case
 		pion.getCasePlateau().setPion(null);
 
-		//on dÃ©connecte le pion de la liste
+		//on déconnecte le pion de la liste
 		if(liste1.contains(pion)){
 			liste1.remove(pion);
 		}else if (liste2.contains(pion)){
@@ -178,12 +212,18 @@ public class NegaMax {
 		}
 	}
 
+	
+	/**
+	 * permet de remettre les pions qui ont été supprimés,
+	 * permet d'éviter de faire des clones
+	 * @param pionsARemmettre la liste des pions qui ont été précedemment supprimés
+	 */
 	private static void remettrePions(ArrayList<Pion> pionsARemmettre){
 		if(pionsARemmettre.isEmpty()){
 			return;
 		}
 		for(Pion pion:pionsARemmettre){
-			//si le pion Ã  remettre appartient Ã  la liste pionsIA on l'y remet
+			//si le pion à  remettre appartient à  la liste pionsIA on l'y remet
 			if(pion.getNumeroJoueur() == iaAppellante.getNumeroJoueur()){
 				pionsIA.add(pion);
 			}else{
@@ -193,30 +233,36 @@ public class NegaMax {
 		}
 	}
 
+	
+	/**
+	 * 
+	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
+	 */
 	public static IAController.ScoreCoupsInitiaux getBestMove(){
 		IAController.ScoreCoupsInitiaux best = coupsJouables.get(0);
-		//si jouer le mÃªme coups que prÃ©cÃ©demment est la seule possibilitÃ© alors on le joue
-		if(GameController.isAllIA() && coupsJouables.size() == 1 && coupsJouables.get(0).getCase() == caseAlreadyPlayed && coupsJouables.get(0).getPion() == pionAlreadyPlayed){
-			return coupsJouables.get(0);
-		}
-		else{
-			for(IAController.ScoreCoupsInitiaux sci: coupsJouables){
-				//autre version pour avoir des parties diffÃ©rentes (avis final: trÃ¨s mauvais sur la qualitÃ© de l'ia)
-				if(setup.isRandomisedAfter()){
-					sci.randomizeScore();
-				}
-				if(GameController.isAllIA()){
-					if(sci.getScore() > best.getScore() && sci.getCase() != caseAlreadyPlayed && sci.getPion() != pionAlreadyPlayed){
-						best = sci;
-					}
-				}else if(sci.getScore() > best.getScore()){
-					best = sci;
-				}
+		for(IAController.ScoreCoupsInitiaux sci: coupsJouables){
+			//autre version pour avoir des parties différentes (avis final: très mauvais sur la qualité de l'ia)
+			if(setup.isRandomisedAfter()){
+				sci.randomizeScore();
+			}
+			if(sci.getScore() > best.getScore()){
+				best = sci;
 			}
 		}
 		return best;
 	}
 
+	/**
+	 * fonction principal permettant de lancer l'algorithme
+	 * @param pionsIA la liste des pions de l'IA
+	 * @param pionsAdversaire la liste des pions de son adversaire
+	 * @param maxProfondeur la profondeur maximale à atteindre
+	 * @param caseAlreadyPlayed la case déjà jouée précédemment (pour éviter les répétitions)
+	 * @param pionAlreadyPlayed le pion déjà joué précédemment (pour éviter les répétitions)
+	 * @param iaAppellante la classe Joueur de l'IA qui appelle (permet de récupérer le numéro du joueur qui a appelé)
+	 * @param setup classe spécial permettant de régler la fonction d'évaluation(combien de coefs pris en compte, les valeurs des coefs, si on randomise après)
+	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
+	 */
 	public static IAController.ScoreCoupsInitiaux launchNegaMax(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Joueur iaAppellante, EvaluatePosition.Setup setup){
 		NegaMax.pionsIA = pionsIA;
 		NegaMax.pionsAdversaire = pionsAdversaire;

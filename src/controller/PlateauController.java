@@ -19,7 +19,7 @@ public class PlateauController {
 	public PlateauController() {
 		cases = new Case[App.regles.getNbDeCaseParLigne()][App.regles.getNbDeCaseParLigne()];
 
-		//crÃ©ation des cases. Vides pour le moment
+		//création des cases. Vides pour le moment
 		for(int i=0;i<App.regles.getNbDeCaseParLigne();i++){
 			for(int j=0;j<App.regles.getNbDeCaseParLigne();j++){
 				cases[i][j] = new Case(null);
@@ -27,13 +27,13 @@ public class PlateauController {
 			}
 		}
 
-		//CrÃ©ation des pions noirs et blancs
+		//Création des pions noirs et blancs
 		for(int i = 0; i < App.regles.getNbDeCaseParLigne(); i++){
 			pionsNoirs.add(new Pion(CouleurPion.NOIR, cases[i][App.regles.getNbDeCaseParLigne() - 1], App.regles.getNumeroJoueurNoir(), i));
 			pionsBlancs.add(new Pion(CouleurPion.BLANC, cases[i][0], App.regles.getNumeroJoueurBlanc(), i));
 		}
 
-		//mise Ã  jour des diffÃ©rentes classes qui dÃ©pendent de la crÃ©ation des pions
+		//mise à  jour des diffÃ©rentes classes qui dépendent de la création des pions
 		App.pv.begin(cases, pionsBlancs, pionsNoirs);
 		try {
 			App.changementFenetre(App.ov.getPanel(), App.pv.getPanel());
@@ -78,8 +78,8 @@ public class PlateauController {
 	}
 
 	/**
-	 * mets les cases en paramÃ¨tre en surbrillance
-	 * @param casesCiblees: les cases Ã  mettre en surbrillance
+	 * mets les cases en paramètre en surbrillance
+	 * @param casesCiblees: les cases à  mettre en surbrillance
 	 */
 	public static void putCasesInHighlight(ArrayList<Case> casesCiblees){
 		for(Case caseCiblee:casesCiblees)
@@ -87,11 +87,11 @@ public class PlateauController {
 	}
 
 	/**
-	 * renvoie une liste contenant toutes les cases oÃ¹ le pion passÃ© en paramÃ¨tre peut aller
-	 * @param pion: le pion qui veut voir les cases oÃ¹ il peut aller
+	 * renvoie une liste contenant toutes les cases où le pion passé en paramètre peut aller
+	 * @param pion: le pion qui veut voir les cases où il peut aller
 	 */
 	public static ArrayList<Case> getPossibleMoves(Pion pion){
-		//rÃ©cupÃ¨re les coodronnÃ©es du pion
+		//récupère les coodronnées du pion
 		int pionX = pion.getCasePlateau().getCoordonneeX();
 		int pionY = pion.getCasePlateau().getCoordonneeY();
 		ArrayList<Case> possibleCases = new ArrayList<Case>();
@@ -103,7 +103,7 @@ public class PlateauController {
 			if(cases[i][pionY].getPion() == null){
 				possibleCases.add(cases[i][pionY]);
 			}else{
-				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
+				//à  partir de là  il n'y a plus de déplacements valides
 				break;
 			}
 		}
@@ -114,7 +114,7 @@ public class PlateauController {
 			if(cases[i][pionY].getPion() == null){
 				possibleCases.add(cases[i][pionY]);
 			}else{
-				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
+				//à  partir de là  il n'y a plus de déplacements valides
 				break;
 			}
 		}
@@ -124,7 +124,7 @@ public class PlateauController {
 			if(cases[pionX][i].getPion() == null){
 				possibleCases.add(cases[pionX][i]);
 			}else{
-				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
+				//à  partir de là  il n'y a plus de déplacements valides
 				break;
 			}
 		}
@@ -134,7 +134,7 @@ public class PlateauController {
 			if(cases[pionX][i].getPion() == null){
 				possibleCases.add(cases[pionX][i]);
 			}else{
-				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
+				//à  partir de là  il n'y a plus de déplacements valides
 				break;
 			}
 		}
@@ -145,8 +145,8 @@ public class PlateauController {
 	
 	
 	/**
-	 * met en surbrillance toutes les cases oÃ¹ le pion passÃ© en paramÃ¨tre peut aller
-	 * @param pion: le pion qui veut voir les cases oÃ¹ il peut aller
+	 * met en surbrillance toutes les cases où le pion passé en paramètre peut aller
+	 * @param pion: le pion qui veut voir les cases où il peut aller
 	 */
 	public void highlightPossibleMoves(Pion pion){
 		putCasesInHighlight(getPossibleMoves(pion));
@@ -155,16 +155,16 @@ public class PlateauController {
 	
 	
 	/**
-	 * Regarde la nouvelle position du pion donnÃ©e en paramÃ¨tre et regarde si cela resulte en une capture et supprime les pions correspondant
-	 * @param pion: le pion qui vient de se dÃ©placer
-	 * @param cases: le plateau sur lequel les vÃ©rifications sont effectuÃ©es
+	 * Regarde la nouvelle position du pion donnée en paramètre et regarde si cela resulte en une capture et supprime les pions correspondant
+	 * @param pion: le pion qui vient de se déplacer
+	 * @param cases: le plateau sur lequel les vérifications sont effectuées
 	 * @param toDisplay: vrai si 
 	 */
 	public static ArrayList<Pion> verifierCapture(Pion pion, Case[][] cases){
 		
 		int indiceMax = App.regles.getNbDeCaseParLigne() - 1;
 		
-		//rÃ©cupÃ¨re les coodronnÃ©es du pion
+		//récupère les coodronnées du pion
 		int pionX = pion.getCasePlateau().getCoordonneeX();
 		int pionY = pion.getCasePlateau().getCoordonneeY();
 		
@@ -174,44 +174,44 @@ public class PlateauController {
 		//du pion vers la droite
 		for(int i = pionX + 1; i <= indiceMax; i++){
 
-			//si la case est libre c'est qu'il n'y a rien Ã  capturer 
+			//si la case est libre c'est qu'il n'y a rien à  capturer 
 			if(cases[i][pionY].getPion() == null){
 				break;
 
 			}else{
 
-				//Si le pion rencontrÃ© appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturÃ©s
+				//Si le pion rencontré appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturés
 				if(pion.getNumeroJoueur() == cases[i][pionY].getPion().getNumeroJoueur()){
 					listeFinale.addAll(pionsCaptures);
 					break;
 				}
 
-				//sinon si le pion rencontrÃ© appartient Ã  l'adversaire on le met dans la liste de pions potentiellement capturÃ©s
+				//sinon si le pion rencontré appartient à  l'adversaire on le met dans la liste de pions potentiellement capturés
 				else if(pion.getNumeroJoueur() != cases[i][pionY].getPion().getNumeroJoueur()){
 					pionsCaptures.add(cases[i][pionY].getPion());
 				}
 			}
 		}
 
-		//on rÃ©initialise la liste pionCapturÃ©s
+		//on réinitialise la liste pionCapturés
 		pionsCaptures = new ArrayList<>();
 
 		//du pion vers la gauche
 		for(int i = pionX - 1; i >= 0; i--){
 
-			//si la case est libre c'est qu'il n'y a rien Ã  capturer 
+			//si la case est libre c'est qu'il n'y a rien à  capturer 
 			if(cases[i][pionY].getPion() == null){
 				break;
 
 			}else{
 
-				//Si le pion rencontrÃ© appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturÃ©s
+				//Si le pion rencontré appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturés
 				if(pion.getNumeroJoueur() == cases[i][pionY].getPion().getNumeroJoueur()){
 					listeFinale.addAll(pionsCaptures);
 					break;
 				}
 
-				//sinon si le pion rencontrÃ© appartient Ã  l'adversaire on le met dans la liste de pions potentiellement capturÃ©s
+				//sinon si le pion rencontré appartient à  l'adversaire on le met dans la liste de pions potentiellement capturés
 				else if(pion.getNumeroJoueur() != cases[i][pionY].getPion().getNumeroJoueur()){
 					pionsCaptures.add(cases[i][pionY].getPion());
 				}
@@ -224,19 +224,19 @@ public class PlateauController {
 		//du pion vers le haut
 		for(int i = pionY - 1;i >= 0 ; i--){
 
-			//si la case est libre c'est qu'il n'y a rien Ã  capturer 
+			//si la case est libre c'est qu'il n'y a rien à  capturer 
 			if(cases[pionX][i].getPion() == null){
 				break;
 
 			}else{
 
-				//Si le pion rencontrÃ© appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturÃ©s
+				//Si le pion rencontré appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturés
 				if(pion.getNumeroJoueur() == cases[pionX][i].getPion().getNumeroJoueur()){
 					listeFinale.addAll(pionsCaptures);
 					break;
 				}
 
-				//sinon si le pion rencontrÃ© appartient Ã  l'adversaire on le met dans la liste de pions potentiellement capturÃ©s
+				//sinon si le pion rencontré appartient à  l'adversaire on le met dans la liste de pions potentiellement capturés
 				else if(pion.getNumeroJoueur() != cases[pionX][i].getPion().getNumeroJoueur()){
 					pionsCaptures.add(cases[pionX][i].getPion());
 				}
@@ -249,19 +249,19 @@ public class PlateauController {
 		//du pion vers le bas
 		for(int i = pionY + 1;i <= indiceMax; i++){
 
-			//si la case est libre c'est qu'il n'y a rien Ã  capturer 
+			//si la case est libre c'est qu'il n'y a rien à  capturer 
 			if(cases[pionX][i].getPion() == null){
 				break;
 
 			}else{
 
-				//Si le pion rencontrÃ© appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturÃ©s
+				//Si le pion rencontré appartient au joueur et qu'il y a au moins un pion pris en sandwich on supprime les pions capturés
 				if(pion.getNumeroJoueur() == cases[pionX][i].getPion().getNumeroJoueur()){
 					listeFinale.addAll(pionsCaptures);
 					break;
 				}
 
-				//sinon si le pion rencontrÃ© appartient Ã  l'adversaire on le met dans la liste de pions potentiellement capturÃ©s
+				//sinon si le pion rencontré appartient à  l'adversaire on le met dans la liste de pions potentiellement capturés
 				else if(pion.getNumeroJoueur() != cases[pionX][i].getPion().getNumeroJoueur()){
 					pionsCaptures.add(cases[pionX][i].getPion());
 				}
@@ -270,9 +270,9 @@ public class PlateauController {
 		}
 		
 		
-		//vÃ©rifier les pions dans les coins extremes
+		//vérifier les pions dans les coins extremes
 		
-		//si le pion en haut Ã  gauche appartient Ã  l'adversaire
+		//si le pion en haut à  gauche appartient à  l'adversaire
 		if(cases[0][0].getPion() != null && cases[0][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
 			Pion pion1 = cases[0][1].getPion();
 			Pion pion2 = cases[1][0].getPion();
@@ -282,7 +282,7 @@ public class PlateauController {
 			}
 		}
 				
-		//si le pion en bas Ã  gauche appartient Ã  l'adversaire
+		//si le pion en bas à  gauche appartient à  l'adversaire
 		if(cases[0][indiceMax].getPion() != null && cases[0][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
 			Pion pion1 = cases[0][indiceMax - 1].getPion();
 			Pion pion2 = cases[1][indiceMax].getPion();
@@ -293,7 +293,7 @@ public class PlateauController {
 		}
 		
 		
-		//si le pion en haut Ã  droite appartient Ã  l'adversaire
+		//si le pion en haut à  droite appartient à  l'adversaire
 		if(cases[indiceMax][0].getPion() != null && cases[indiceMax][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
 			Pion pion1 = cases[indiceMax - 1][0].getPion();
 			Pion pion2 = cases[indiceMax][1].getPion();
@@ -304,7 +304,7 @@ public class PlateauController {
 		}
 		
 		
-		//si le pion en bas Ã  droite appartient Ã  l'adversaire
+		//si le pion en bas à  droite appartient à  l'adversaire
 		if(cases[indiceMax][indiceMax].getPion() != null && cases[indiceMax][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
 			Pion pion1 = cases[indiceMax - 1][indiceMax].getPion();
 			Pion pion2 = cases[indiceMax][indiceMax - 1].getPion();
@@ -316,7 +316,7 @@ public class PlateauController {
 		
 		
 		
-		//vÃ©rification spÃ©ciale en cas de capture en coins multiple autorisÃ©e
+		//vérification spéciale en cas de capture en coins multiple autorisée
 		//TODO
 		
 		return listeFinale;	
@@ -324,23 +324,24 @@ public class PlateauController {
 
 
 	/**
-	 * essaye de dÃ©placer le pion sur une nouvelle case
-	 * met Ã  jour la case de dÃ©part et d'arrivÃ©e
-	 * @param pion: le pion qui doit Ãªtre dÃ©placÃ©
-	 * @param caseCiblee: la case d'arrivÃ©e du pion
-	 * @param toDisplay: vrai si le dÃ©placement doit se reflÃ©ter sur le plateau.
-	 * @return vrai si le dÃ©placement est autorisÃ©, false sinon
+	 * essaye de déplacer le pion sur une nouvelle case
+	 * met Ã  jour la case de départ et d'arrivée
+	 * @param pion: le pion qui doit être déplacé
+	 * @param caseCiblee: la case d'arrivée du pion
+	 * @param toDisplay: vrai si le déplacement doit se refléter sur le plateau.
+	 * @return vrai si le déplacement est autorisé, false sinon
 	 */
 	public boolean deplacerPion(Pion pion, Case caseCiblee, boolean isIA){
 		
 		if (caseCiblee.isHighlighted() || isIA){
 			//d'abord on supprime la reference du pion dans l'ancienne case
 			pion.getCasePlateau().setPion(null);
-			//on met Ã  jour le pion
+			//on met à  jour le pion
 			pion.setCasePlateau(caseCiblee);
-			//on met Ã  jour la nouvelle case
+			//on met à  jour la nouvelle case
 			caseCiblee.setPion(pion);
 			Platform.runLater(()-> App.pv.deplacerPion(pion, caseCiblee.getCoordonneeX(), caseCiblee.getCoordonneeY()));
+			//joue un son aléatoire parmi une banque de son stockée dans App.règles
 			playSound(App.regles.getASound());
 			return true;
 		}
@@ -349,24 +350,24 @@ public class PlateauController {
 
 	/**
 	 * supprime le pion du plateau
-	 * @param pion: le pion qui sera supprimÃ©
+	 * @param pion: le pion qui sera supprimé
 	 */
 	public void supprimerPion(Pion pion){
 		//suppression graphique du pion
 		App.pv.suppressionPion(pion);
 
-		//on supprime la rÃ©fÃ©rence du pion pour la case
+		//on supprime la référence du pion pour la case
 		pion.getCasePlateau().setPion(null);
 		//si le pion est noir
 		if(pion.getNumeroJoueur() == App.regles.getNumeroJoueurNoir()){
 			//on supprime le pion de la base
 			pionsNoirs.remove(pion);
-			//On met Ã  jour le nombre de pions pour le joueur
+			//On met à  jour le nombre de pions pour le joueur
 			App.gameController.getJoueurs().get(App.regles.getNumeroJoueurNoir()).loseOnePion();
 			App.pv.setTexteJ1(pionsNoirs.size());
 		}else{
 			pionsBlancs.remove(pion);
-			//On met Ã  jour le nombre de pions pour le joueur
+			//On met à  jour le nombre de pions pour le joueur
 			App.gameController.getJoueurs().get(App.regles.getNumeroJoueurBlanc()).loseOnePion();
 			App.pv.setTexteJ2(pionsBlancs.size());
 		}
@@ -374,7 +375,7 @@ public class PlateauController {
 	
 	
 	/**
-	 * supprime une liste de pion du plateau en mettant Ã  jour tout ce qu'il faut
+	 * supprime une liste de pion du plateau en mettant à  jour tout ce qu'il faut
 	 * @param pions: la liste de pion
 	 */
 	public void supprimerPion (ArrayList<Pion> pions){
@@ -382,40 +383,44 @@ public class PlateauController {
 			//suppression graphique du pion
 			Platform.runLater(()-> App.pv.suppressionPion(pion));
 
-			//on supprime la rÃ©fÃ©rence du pion pour la case
+			//on supprime la référence du pion pour la case
 			pion.getCasePlateau().setPion(null);
 			//si le pion est noir
 			if(pion.getNumeroJoueur() == App.regles.getNumeroJoueurNoir()){
 				//on supprime le pion de la base
 				pionsNoirs.remove(pion);
-				//On met Ã  jour le nombre de pions pour le joueur
+				//On met à  jour le nombre de pions pour le joueur
 				App.gameController.getJoueurs().get(App.regles.getNumeroJoueurNoir()).loseOnePion();
 			}else{
 				pionsBlancs.remove(pion);
-				//On met Ã  jour le nombre de pions pour le joueur
+				//On met à  jour le nombre de pions pour le joueur
 				App.gameController.getJoueurs().get(App.regles.getNumeroJoueurBlanc()).loseOnePion();
 			}
 		}
 		
-		//mise Ã  jour graphique du score
+		//mise à  jour graphique du score
 		Platform.runLater(()-> App.pv.setTexteJ1(pionsNoirs.size()));
 		Platform.runLater(()-> App.pv.setTexteJ2(pionsBlancs.size()));
 	}
 
 
 	/**
-	 * mÃ©thode appelÃ©e par la vue afin de notifier un clique du joueur
-	 * @param casePlateau: la case sur laquelle il a cliquÃ©, null si le clique est en dehors
+	 * méthode appelée par la vue afin de notifier un clique du joueur
+	 * @param casePlateau: la case sur laquelle il a cliqué, null si le clique est en dehors
 	 */
 	public void isClicking(Case casePlateau){
 
-		//Si c'est Ã  l'ia de jouer on ne prend pas en compte les clics.
+		//Si c'est à  l'ia de jouer on ne prend pas en compte les clics.
 		if(App.gameController.isActualJoueurHuman(App.gameController.getNumeroActualJoueur())){
 			App.gameController.validClick(casePlateau);
 		}
 	}
 	
 	
+	/**
+	 * permet de jouer un son lorsque le joueur joue un coup
+	 * @param sound le chemin du son à jouer
+	 */
 	public void playSound(String sound){
 	    try{
 		    InputStream in = getClass().getResourceAsStream("/"+sound);

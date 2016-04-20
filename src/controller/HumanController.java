@@ -19,14 +19,17 @@ public class HumanController implements PlayerController{
 	}
 	
 	/**
-	 * renseigne le controller de la case Ã  Ã©tudier
-	 * @param casePlateau: la case Ã  Ã©tudier
+	 * renseigne le controller de la case à  étudier
+	 * @param casePlateau: la case à  étudier
 	 */
 	public void setCasePlateau(Case casePlateau){
 		this.casePlateau = casePlateau;
 	}
 	
-	
+	/**
+	 * 
+	 * @return vrai si le joueur peut jouer au moins un coup dans sa position actuelle
+	 */
 	private boolean canPlayAMove(){
 		if(this.joueur.isPremier()){
 			for(Pion pion: App.gameController.getPlateauController().getPionsNoirs()){
@@ -45,8 +48,8 @@ public class HumanController implements PlayerController{
 	}
 	
 	/**
-	 * essaye de jouer un coup en fonction de la case cliquÃ©e.
-	 * cela peut nÃ©cessiter plusieurs appels avant de mettre fin au tour.
+	 * essaye de jouer un coup en fonction de la case cliquée.
+	 * cela peut nécessiter plusieurs appels avant de mettre fin au tour.
 	 */
 	@SuppressWarnings("static-access")
 	@Override
@@ -54,47 +57,47 @@ public class HumanController implements PlayerController{
 		
 		//test si le joueur peut bouger au moins un pion
 		if(canPlayAMove()){
-			//si un pion avait Ã©tÃ© selectionnÃ©
+			//si un pion avait été selectionné
 			if(this.actualPion != null){
-				//on essaye de dÃ©placer le pion
+				//on essaye de déplacer le pion
 				if(App.gameController.getPlateauController().deplacerPion(this.actualPion, this.casePlateau, false)){
 					
-					//on dÃ©selectionne le pion
+					//on déselectionne le pion
 					App.pv.makePionSelected(false, this.actualPion);
-					//on vÃ©rifie si le dÃ©placement rÃ©sulte en une capture
+					//on vérifie si le déplacement résulte en une capture
 					ArrayList<Pion> pionASupprimer = App.gameController.getPlateauController().verifierCapture(this.actualPion, PlateauController.getCases());
 					App.gameController.getPlateauController().supprimerPion(pionASupprimer);
-					//On enlÃ¨ve ce pion de la varible pion courant
+					//On enlève ce pion de la varible pion courant
 					this.actualPion = null;
 					App.gameController.getPlateauController().resetAllHighlight();
 					App.gameController.finTour();
 					
-				}else{//si le dÃ©placement n'est pas valide, on remet Ã  zÃ©ro toutes les cases et on dÃ©selectionne le pion
+				}else{//si le déplacement n'est pas valide, on remet à  zéro toutes les cases et on déselectionne le pion
 					
-					//on dÃ©selectionne le pion
+					//on déselectionne le pion
 					App.pv.makePionSelected(false, this.actualPion);
 					App.gameController.getPlateauController().resetAllHighlight();
 					
-					//mais que la case selectionnÃ©e contient un autre de ses pions alors on switch le pion actuel avec le nouveau
+					//mais que la case selectionnée contient un autre de ses pions alors on switch le pion actuel avec le nouveau
 					if(this.casePlateau.getPion() != null && this.casePlateau.getPion().getNumeroJoueur() == App.gameController.getNumeroActualJoueur()){
 						
 						this.actualPion = this.casePlateau.getPion();
 						App.pv.makePionSelected(true, this.actualPion);
 						App.gameController.getPlateauController().highlightPossibleMoves(this.actualPion);
 						
-					}else{ //sinon on dÃ©selectionne
+					}else{ //sinon on déselectionne
 						
 						this.actualPion = null;
 					
 					}
 				}
 			}else{
-				//si la case contient un pion appartenant au joueur on le selectionne et on met ses dÃ©placements possible en surbrillance
+				//si la case contient un pion appartenant au joueur on le selectionne et on met ses déplacements possible en surbrillance
 				if(this.casePlateau.getPion() != null && this.casePlateau.getPion().getNumeroJoueur() == App.gameController.getNumeroActualJoueur()){
 					this.actualPion = this.casePlateau.getPion();
-					//on note le pion comme selectionnÃ©
+					//on note le pion comme selectionné
 					App.pv.makePionSelected(true, this.actualPion);
-					//on surligne tous les dÃ©placements possibles
+					//on surligne tous les déplacements possibles
 					App.gameController.getPlateauController().highlightPossibleMoves(this.actualPion);
 				}
 			}	

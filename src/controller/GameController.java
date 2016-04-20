@@ -20,22 +20,29 @@ public class GameController {
 	
 	
 	/**
-	 * rÃ©cupÃ¨re les options spÃ©ciales aux rÃ¨gles entrÃ©es par l'utilisateur dans optionView et modifie App.regles en consÃ©quence
+	 * récupère les options spéciales aux règles entrées par l'utilisateur dans optionView et modifie App.regles en conséquence
 	 */
 	private void getRegles(){
-		//possibilitÃ© de faire changer les rÃ¨gles dans l'UI
+		//possibilité de faire changer les règles dans l'UI
 		//if(App.os.getEcartAvantDefaite() == true){
 		//	App.regles.setEcartAvantDefaite(true);
 		//}
 		//TODO : si le temps
 	}
 	
-	
+	/**
+	 * 
+	 * @return le controlleur du plateau pour ce gameController
+	 */
 	public PlateauController getPlateauController(){
 		return this.plateauController;
 	}
 	
 	
+	/**
+	 * 
+	 * @return la liste des joueurs sous forme de Joueur
+	 */
 	public ArrayList<Joueur> getJoueurs() {
 		return joueurs;
 	}
@@ -43,7 +50,7 @@ public class GameController {
 	
 	
 	/**
-	 * rÃ©cupÃ¨re les informations du panneau d'option et crÃ©er deux joueurs correspondants
+	 * récupère les informations du panneau d'option et créer deux joueurs correspondants
 	 */
 	private void getJoueur(){
 		String iahuJ1 = App.ov.getIahuJ1().getSelectedToggle().getUserData().toString();
@@ -60,7 +67,7 @@ public class GameController {
 	
 	/**
 	 * renvoie l'indice du joueur dont c'est le tour
-	 * @return l'entier 0: premier joueur, 1: deuxiÃ¨me joueur
+	 * @return l'entier 0: premier joueur, 1: deuxième joueur
 	 */
 	public int getNumeroActualJoueur(){
 		return joueurActuel;
@@ -70,7 +77,7 @@ public class GameController {
 	/**
 	 * permet de savoir si le joueur actuel est humain
 	 * @param joueur (int) : l'indice du joueur actuel 
-	 * @return vrai si le joueur est humain faux si le joueur est controllÃ© par l'ia
+	 * @return vrai si le joueur est humain faux si le joueur est controllé par l'ia
 	 */
 	public boolean isActualJoueurHuman(int joueur){
 		if (joueurs.get(joueur).isHumain()){
@@ -95,7 +102,10 @@ public class GameController {
 		joueurActuel = 1 - joueurActuel;
 	}
 	
-	
+	/**
+	 * appelée si le clic est valide est déclanche le coup du joueur humain
+	 * @param casePlateau la case sur laquelle on a cliqué
+	 */
 	public void validClick(Case casePlateau){
 		((HumanController)(controllers.get(joueurActuel))).setCasePlateau(casePlateau);
 		controllers.get(joueurActuel).playAMove();
@@ -104,16 +114,16 @@ public class GameController {
 	
 	
 	/**
-	 * permet de savoir si la partie est gagnÃ© par le joueur actuel
+	 * permet de savoir si la partie est gagné par le joueur actuel
 	 * @return vrai si le coup que le joueur actuel vient d'effectuer entraine une victoire. Faux sinon
 	 */
 	private boolean testVictoire(){
-		//si le joueur adverse Ã  trop peu de pions (pendant son tour on ne peut perdre un de ses pions)
+		//si le joueur adverse à  trop peu de pions (pendant son tour on ne peut perdre un de ses pions)
 		if(joueurs.get(autreJoueur()).getNbPions() <= App.regles.getNbPiecesAvantDefaite()){
 			return true;
 		}
 		
-		//si la rÃ¨gle sur l'Ã©cart trop grand est selectionnÃ©e
+		//si la règle sur l'écart trop grand est selectionnée
 		if(App.regles.isEcartAvantDefaite()){
 			if(joueurs.get(joueurActuel).getNbPions() - joueurs.get(autreJoueur()).getNbPions() > App.regles.getNbEcartAvantDefaite()){
 				return true;
@@ -130,14 +140,14 @@ public class GameController {
 	 * sinon il suffit d'attendre le clique de l'humain
 	 */
 	public void finTour(){
-		//si la partie est finie, on dÃ©sactive les clics et on affiche le gagnant
+		//si la partie est finie, on désactive les clics et on affiche le gagnant
 		
 		if(testVictoire()){ 
 			Platform.runLater(()-> App.pv.setWinnerTextInTopBanner(this.getNumeroActualJoueur()));
 			App.pv.stopMouseListener();
 		}else{
 			this.nextJoueur();
-			//On met Ã  jour l'image du joueur actuel
+			//On met à  jour l'image du joueur actuel
 			Platform.runLater(()-> App.pv.switchImageJoueur(joueurActuel));
 			//si le prochain joueur est une IA 
 			if(!this.isActualJoueurHuman(joueurActuel)){
@@ -152,7 +162,7 @@ public class GameController {
 	
 	/**
 	 * Commence le premier tour de jeu.
-	 * Basiquement si c'est une ia on appelle son controlleur sinon on attend le clique du joueur humain
+	 * typiquement si c'est une ia on appelle son controlleur sinon on attend le clique du joueur humain
 	 */
 	public void startGame(){
 		if(!this.isActualJoueurHuman(joueurActuel)){
@@ -180,12 +190,16 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return vrai si seules des IA jouent faux sinon
+	 */
 	public static boolean isAllIA(){
 		return allIA;
 	}
 	
 	/**
-	 * fonction mÃ¨re du controlleur lancant la partie
+	 * fonction mère du controlleur lancant la partie
 	 */
 	public void begin(){
 		this.getRegles();

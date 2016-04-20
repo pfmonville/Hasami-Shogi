@@ -32,7 +32,7 @@ public class App extends Application {
 	//instancie la regle du jeu
 	public static Regles regles = new Regles();
 	
-	//Instancie le thÃ¨me pour le plateau et les pions
+	//Instancie le thème pour le plateau et les pions
 	public static Theme theme = new Theme();
 	
 	public static void main(String[] args) {

@@ -84,7 +84,7 @@ public class PlateauView extends View{
 			}
 		}
 		
-		//gridPanel centrÃ©
+		//gridPanel centré
 		gridPanel.setTranslateX((super.getPanel().getPrefWidth() - (tailleGrille*tailleCase))/2);
 		gridPanel.setTranslateY((super.getPanel().getPrefHeight() - (tailleGrille*tailleCase))/2);
 		
@@ -273,7 +273,7 @@ public class PlateauView extends View{
 	
 	/**
 	 * Permet de changer l'image du joueur en cours
-	 * @param image url de l'image Ã  changer
+	 * @param image url de l'image à  changer
 	 */
 	private void changeImage(Image image){
 		imageJoueur = image;
@@ -282,7 +282,7 @@ public class PlateauView extends View{
 	}
 
 	/**
-	 * Permet de mettre Ã  jour l'attribut ImageAQuiLeTour
+	 * Permet de mettre à  jour l'attribut ImageAQuiLeTour
 	 * @param image nouvelle ImageView
 	 */
 	private void setImageAQuiLeTour(ImageView image){
@@ -337,10 +337,10 @@ public class PlateauView extends View{
 	}
 	
 	public void setWinnerTextInTopBanner(int joueur){
-		//rÃ©gler le texte
+		//régler le texte
 		this.aQuiLeTour.setText("a gagné !");
 		
-		//rÃ©gler l'icone du pion
+		//régler l'icone du pion
 		Image imageGagnant;
 		if(joueur == App.regles.getNumeroJoueurNoir()){
 			imageGagnant = new Image(App.theme.getImageJoueurNoir());

@@ -9,16 +9,16 @@ import model.Pion;
 
 public class MinMax implements Cloneable{
 
-	//liste mÃ©morisant tous les coups possibles
+	//liste mémorisant tous les coups possibles
 	private static ArrayList<Object[]> coupsPossibles;
 
 	/**
-	 * Cette fonction permet de trouver le dÃ©placement le plus judicieux Ã  effectuer en estimant que l'adversaire joue au mieux.
+	 * Cette fonction permet de trouver le déplacement le plus judicieux à  effectuer en estimant que l'adversaire joue au mieux.
 	 * Application de l'algorithme min-max
-	 * @param profondeur profondeur souhaitÃ©e pour la recherche
+	 * @param profondeur profondeur souhaitée pour la recherche
 	 * @param pionsIA pions de l'IA qui fait la recherche
 	 * @param pionsAdversaire pions de l'adversaire
-	 * @return retourne le dÃ©placement le plus optimisÃ© selon la profondeur renseignÃ©e
+	 * @return retourne le déplacement le plus optimisé selon la profondeur renseignée
 	 * @throws CloneNotSupportedException 
 	 */
 	public static Object[] minMaxDecision(int profondeur, ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, 
@@ -27,13 +27,18 @@ public class MinMax implements Cloneable{
 		//initialisation de la liste des coups possibles
 		coupsPossibles = new ArrayList<Object[]>();
 		
-		//cette fonction va modifier le tableau dÃ©placement Ã  retourner automatiquement
+		//cette fonction va modifier le tableau déplacement à  retourner automatiquement
 		maxValue(0, profondeur, PlateauController.getCases(), pionsIA, pionsAdversaire, setup);
 		
 		//parcours de la liste de coups possibles
 		double score = -EvaluatePosition.maxValuePossible();
 		Object[] best = null;
 		for(Object[] coup:coupsPossibles){
+			if(setup.isRandomisedAfter()){
+				double temp = (double) coup[2];
+				temp += (Math.random()*0.01) - 0.005;
+				coup[2] = temp;
+			}
 			//on retient le max de la liste
 			if((double)coup[2] > score){
 				best = coup;
@@ -41,9 +46,9 @@ public class MinMax implements Cloneable{
 			}
 		}
 		
-		//on rÃ©initialise le plateau
+		//on réinitialise le plateau
 		MinMax.init(PlateauController.getCases(), pionsIA, pionsAdversaire);
-		//on retourne le meilleur choix de dÃ©placement
+		//on retourne le meilleur choix de déplacement
 		return best;
 	}
 
@@ -58,7 +63,7 @@ public class MinMax implements Cloneable{
 	private static double maxValue(int profondeur, int profondeurMax, Case[][] plateau, ArrayList<Pion> pionsJoueurCourant, 
 		ArrayList<Pion> pionsAdversaire, EvaluatePosition.Setup setup) throws CloneNotSupportedException{
 
-		//on initialise la valeur de score au rÃ©sultat le plus petit possible
+		//on initialise la valeur de score au résultat le plus petit possible
 		double score = -EvaluatePosition.maxValuePossible();
 
 		//si profondeur voulue non atteinte
@@ -74,23 +79,23 @@ public class MinMax implements Cloneable{
 				for(Case casePlateau:deplacementsPossibles){
 					
 					
-					//copie de tous les Ã©lÃ©ments Ã  modifier
+					//copie de tous les éléments à  modifier
 					Case[][] plateauBis = plateau.clone();
 					ArrayList<Pion> pionsJoueurCourantBis = (ArrayList<Pion>) pionsJoueurCourant.clone();
 					ArrayList<Pion> pionsAdversaireBis = (ArrayList<Pion>) pionsAdversaire.clone();
 					Pion pionBis = pion.clone();
 					
-					//initialisation du plateau clonÃ©
+					//initialisation du plateau cloné
 					MinMax.init(plateauBis, pionsJoueurCourantBis, pionsAdversaireBis);
 					
-					//dÃ©placement du pion
+					//déplacement du pion
 					MinMax.deplacerPion(pionBis, plateauBis, casePlateau);
 					
-					//vÃ©rification des pions supprimÃ©s
+					//vérification des pions supprimés
 					ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionBis, plateauBis);
 					MinMax.supprimerPions(pionsASupprimer, pionsJoueurCourantBis, pionsAdversaireBis, plateauBis);
 					
-					//on garde en mÃ©moire dans une liste le score de chaque coup
+					//on garde en mémoire dans une liste le score de chaque coup
 					if(profondeur == 0){
 						Object[] coup = new Object[3];
 						coup[0] = pion;
@@ -106,16 +111,16 @@ public class MinMax implements Cloneable{
 						score = Math.max(score, MinMax.minValue(profondeur + 1, profondeurMax, plateauBis, 
 								pionsAdversaireBis, pionsJoueurCourantBis, setup));
 					}
-				}//fin pour tous les dÃ©placements d'un pion
+				}//fin pour tous les déplacements d'un pion
 			}//fin pour tous les pions
-		}//fin if profondeur diffÃ©rent profondeur max
+		}//fin if profondeur différent profondeur max
 
 		//profondeur voulue atteinte
 		else{
 			score = EvaluatePosition.evaluate(pionsJoueurCourant, pionsAdversaire, plateau, setup);
 		}
 
-		//on retourne le rÃ©sultat
+		//on retourne le résultat
 		return score;
 	}
 
@@ -130,7 +135,7 @@ public class MinMax implements Cloneable{
 	private static double minValue(int profondeur, int profondeurMax, Case[][] plateau, ArrayList<Pion> pionsJoueurCourant, 
 		ArrayList<Pion> pionsAdversaire, EvaluatePosition.Setup setup) throws CloneNotSupportedException{
 		
-		//on initialise la valeur de score au rÃ©sultat le plus petit possible
+		//on initialise la valeur de score au résultat le plus petit possible
 		double score = EvaluatePosition.maxValuePossible();
 
 		//si profondeur voulue non atteinte
@@ -144,19 +149,19 @@ public class MinMax implements Cloneable{
 				//pour chaque coup possible
 				for(Case casePlateau:deplacementsPossibles){
 					
-					//copie de tous les Ã©lÃ©ments Ã  modifier
+					//copie de tous les éléments à  modifier
 					Case[][] plateauBis = plateau.clone();
 					ArrayList<Pion> pionsJoueurCourantBis = (ArrayList<Pion>) pionsJoueurCourant.clone();
 					ArrayList<Pion> pionsAdversaireBis = (ArrayList<Pion>) pionsAdversaire.clone();
 					Pion pionBis = (Pion) pion.clone();
 					
-					//initialisation du plateau clonÃ©
+					//initialisation du plateau cloné
 					MinMax.init(plateauBis, pionsJoueurCourantBis, pionsAdversaireBis);
 					
-					//dÃ©placement du pion
+					//déplacement du pion
 					MinMax.deplacerPion(pionBis, plateauBis, casePlateau);
 					
-					//vÃ©rification des pions supprimÃ©s
+					//vérification des pions supprimés
 					ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionBis, plateauBis);
 					MinMax.supprimerPions(pionsASupprimer, pionsJoueurCourantBis, pionsAdversaireBis, plateauBis);
 
@@ -172,7 +177,7 @@ public class MinMax implements Cloneable{
 			score = EvaluatePosition.evaluate(pionsAdversaire, pionsJoueurCourant, plateau, setup);
 		}
 
-		//on retourne le rÃ©sultat
+		//on retourne le résultat
 		return score;
 	}
 
@@ -203,19 +208,19 @@ public class MinMax implements Cloneable{
 	
 	private static void init(Case[][] plateau, ArrayList<Pion> liste1, ArrayList<Pion> liste2){
 		
-		//on initialise le plateau Ã  vide
+		//on initialise le plateau à  vide
 		for(int i=0;i<App.regles.getNbDeCaseParLigne(); i++){
 			for(int j=0;j<App.regles.getNbDeCaseParLigne();j++){
 				plateau[i][j].setPion(null);
 			}
 		}
 		
-		//on ajoute les Ã©lÃ©ments de la liste 1
+		//on ajoute les éléments de la liste 1
 		for(Pion pion:liste1){
 			plateau[pion.getCasePlateau().getCoordonneeX()][pion.getCasePlateau().getCoordonneeY()].setPion(pion);
 		}
 		
-		//on ajoute les Ã©lÃ©ments de la liste 2
+		//on ajoute les éléments de la liste 2
 		for(Pion pion:liste2){
 			plateau[pion.getCasePlateau().getCoordonneeX()][pion.getCasePlateau().getCoordonneeY()].setPion(pion);
 		}

@@ -53,7 +53,7 @@ public class OptionView extends View{
 		//*********************************************************//
 
 
-		//initialisation des Ã©lements a afficher
+		//initialisation des élements a afficher
 
 		//*********************************************************//
 		//CHOIX HUMAIN OU IA J1
@@ -220,7 +220,7 @@ public class OptionView extends View{
 		
 		valider = new Button("Valider");
 		
-		// action du bouton: changement de la fenÃªtre vers le plateau
+		// action du bouton: changement de la fenètre vers le plateau
 		valider.setOnAction((event)->{
 			//Lancement du controlleur de jeu
 			App.gameController.begin();
@@ -269,7 +269,7 @@ public class OptionView extends View{
 		//mise en page du titre
 		super.miseEnPageTexteCentre(titre, (int)(super.getPanel().getPrefWidth()), 150);
 		
-		//ajout du titre Ã  optionview
+		//ajout du titre à  optionview
 		super.getPanel().getChildren().add(titre);
 		
 		//*********************************************************//
