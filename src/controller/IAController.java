@@ -74,9 +74,9 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 				caseWhereToMove = sci.getCase();
 				break;
 				
-			//minimax profondeur 4 avec fonction d'évaluation complète
+			//minimax profondeur 4 avec fonction d'évaluation quasi-complète
 			case 4:
-				sci = AlphaBeta.launchAlphaBeta(pionsIA, pionsAdversaire, checkBoost(4), getCasePreviouslyPlayed(), getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
+				sci = AlphaBeta.launchAlphaBeta(pionsIA, pionsAdversaire, checkBoost(3), getCasePreviouslyPlayed(), getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 				pionToMove = sci.getPion();
 				caseWhereToMove = sci.getCase();
 				break;
