@@ -1,0 +1,50 @@
+.root{
+	-fx-background-image: url("../image/bois.png");
+    -fx-base: rgb(200, 120, 50);
+}
+
+.button{
+	-fx-opacity:0.75;
+	-fx-background-color:linear-gradient(grey, black);
+	-fx-border-color:black;
+	-fx-border-width:3;
+	-fx-text-alignment:center;
+	-fx-text-fill:white;
+	-fx-font:14px Tahoma;
+	-fx-font-weight: bold;
+}
+
+.button:hover{
+	-fx-background-color:linear-gradient(black, grey);
+}
+
+#titre{
+	-fx-font: 64px Tahoma;
+	-fx-text-alignment:center;
+	-fx-stroke: black;
+	-fx-stroke-width: 1;
+}
+
+#stat{
+	-fx-font: 18px Tahoma;
+	-fx-text-alignment:center;
+}
+
+#niveau{
+	-fx-font: 18px Tahoma;
+}
+
+#titrePlateau{
+	-fx-font: 28px Tahoma;
+	-fx-text-alignment:center;
+}
+
+.radio-button{
+	-fx-font: 12px Tahoma;
+    -fx-background-color: rgb(200, 120, 50);
+    -fx-text-fill: rgb(50, 25, 0);
+    -fx-border-color: rgb(50, 25, 0);
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 7;
+}
