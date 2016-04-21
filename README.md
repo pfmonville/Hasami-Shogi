@@ -148,7 +148,7 @@ Nous avons utilisé différents algorithmes de recherche afin de trouver la meil
 MinMax a été implémenté en faisant une copie du plateau courant pour chaque déplacement de chaque pion. Cette copie est effectuée sur un nœud lorsque l'on regarde ses fils, et est supprimée aussitôt l'analyse de ce nœud terminée, permettant d'avoir en mémoire un nombre limité de copies à la fois. Le score est calculé lorsque la feuille est atteinte.
 Max est le joueur qui lance l'algorithme et qui souhaite gagner. Min est son adversaire. Max souhaite maximiser son score et min souhaite minimiser le score de max. L'algorithme prend donc successivement le maximum puis le minimum des scores obtenus aux feuilles.
 
-![MiniMax](minimax.png "MiniMax algorithme")
+![MiniMax](minimax.PNG "MiniMax algorithme")
 
 
 
@@ -159,7 +159,7 @@ AlphaBeta est une optimisation de MinMax, permettant de couper des branches que 
 Pour optimiser un peu plus l'algorithme, une vérification est effectuée à chaque nœud afin de tester que la partie n'est pas terminée. Si l'un des deux joueurs a gagné avant d'atteindre la profondeur maximale de l'arbre, une valeur est retournée immédiatement, et l'algorithme ne regarde pas les fils du nœud concerné.
 Enfin l'algorithme n'a pas implémenté de copie de l'état mais le transmet à ses fils en appelant après la fonction "annuler le coup" ce qui évite de faire grandir la mémoire.
 
-![Alpha-Beta](alphabeta.png "AlphaBeta algorithme")
+![Alpha-Beta](alphabeta.PNG "AlphaBeta algorithme")
 
 
 #### NegaMax
