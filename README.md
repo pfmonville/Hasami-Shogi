@@ -4,6 +4,12 @@
 **BÉGUEY Maud et
 MONVILLE Pierre-François**    
 Étudiants en troisième année à Paris Descartes
+
+## Installation
+Vous pouvez directement lancer l'executable dans le dossier launcher si vous êtes sur windows.    
+Sinon le .jar dans le launcher sur toutes les plateformes.    
+Vous pouvez aussi importer le projet sous eclipse et le lancer à partir de celui-ci.
+
 ## Règles:
 
 ### Aperçu: 
