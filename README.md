@@ -1,8 +1,8 @@
 # Rapport de projet d'intelligence artificielle - Hasami Shogi - 2015/2016
 
 ## Équipe
-**BÉGUEY Maud - 21300993
-MONVILLE Pierre-François - 21307834**    
+**BÉGUEY Maud et
+MONVILLE Pierre-François**    
 Étudiants en troisième année à Paris Descartes
 ## Règles:
 
