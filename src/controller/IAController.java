@@ -45,10 +45,10 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			
 			switch (niveau){
 			
-			//minimax profondeur 2 avec fonction d'évaluation non complète
+			//minimax profondeur 3 sans boost avec fonction d'évaluation non complète et randomisation ultérieure
 			case 1:
 				try {
-					result = MinMax.minMaxDecision(checkBoost(2), pionsIA, pionsAdversaire, new EvaluatePosition.Setup(true, 1, false, 0, false, 0, false));
+					result = MinMax.minMaxDecision(3, pionsIA, pionsAdversaire, new EvaluatePosition.Setup(true, 1, false, 0, false, 0, true));
 					pionToMove = (Pion)result[0];
 					caseWhereToMove = (Case)result[1];
 				} catch (CloneNotSupportedException e) {

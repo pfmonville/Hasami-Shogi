@@ -134,13 +134,12 @@ public class OptionView extends View{
 		nv5j1.setToggleGroup(nvj1);
 		nv6j1.setToggleGroup(nvj1);
 		
-		//tant que le thread n'est pas fonctionnel
-//		nv1j1.setDisable(true);
-//		nv2j1.setDisable(true);
-//		nv3j1.setDisable(true);
-//		nv4j1.setDisable(true);
-//		nv5j1.setDisable(true);
-//		nv6j1.setDisable(true);
+		nv1j1.setDisable(true);
+		nv2j1.setDisable(true);
+		nv3j1.setDisable(true);
+		nv4j1.setDisable(true);
+		nv5j1.setDisable(true);
+		nv6j1.setDisable(true);
 		
 		nv3j1.setSelected(true);
 		
@@ -185,6 +184,47 @@ public class OptionView extends View{
 		
 		//AJOUT DES ELEMENTS A LA LISTE
 		listej2.addAll(Arrays.asList(labelnvj2, nv1j2, nv2j2, nv3j2, nv4j2, nv5j2, nv6j2));
+		
+		//*********************************************************//
+		
+		
+		//AJOUT DES LISTENER SUR LES BOUTONS IA ET HU PERMETTANT DE GRISER LES NIVEAUX
+		
+		iaJ1.setOnAction((event)->{
+			nv1j1.setDisable(false);
+			nv2j1.setDisable(false);
+			nv3j1.setDisable(false);
+			nv4j1.setDisable(false);
+			nv5j1.setDisable(false);
+			nv6j1.setDisable(false);
+		});
+		
+		huJ1.setOnAction((event)->{
+			nv1j1.setDisable(true);
+			nv2j1.setDisable(true);
+			nv3j1.setDisable(true);
+			nv4j1.setDisable(true);
+			nv5j1.setDisable(true);
+			nv6j1.setDisable(true);
+		});
+		
+		iaJ2.setOnAction((event)->{
+			nv1j2.setDisable(false);
+			nv2j2.setDisable(false);
+			nv3j2.setDisable(false);
+			nv4j2.setDisable(false);
+			nv5j2.setDisable(false);
+			nv6j2.setDisable(false);
+		});
+		
+		huJ2.setOnAction((event)->{
+			nv1j2.setDisable(true);
+			nv2j2.setDisable(true);
+			nv3j2.setDisable(true);
+			nv4j2.setDisable(true);
+			nv5j2.setDisable(true);
+			nv6j2.setDisable(true);
+		});
 		
 		//*********************************************************//
 

@@ -17,8 +17,8 @@ Le joueur à qui il reste deux pièces ou moins perd la partie.
 
 ### Déplacement:
 Un joueur ne peut déplacer qu'un pion durant son tour. Les pièces peuvent être déplacées dans une direction à la fois vers le bas, le haut, la gauche ou la droite. 
-Le nombre de cases pouvant être franchies par un pion pendant un déplacement n'est pas limité, cependant on ne peut sauter par dessus un de ses pions ou ceux de son adversaire. Ainsi le déplacement d'un pion ressemble à celui de la tour aux échecs. $^{\text{fig. 1}}$.     
-<br/><br/><br/><br/><br/><br/>    
+Le nombre de cases pouvant être franchies par un pion pendant un déplacement n'est pas limité, cependant on ne peut sauter par dessus un de ses pions ou ceux de son adversaire. Ainsi le déplacement d'un pion ressemble à celui de la tour aux échecs. *(fig1)*.     
+    
 
 |                    |                    |                      |                      |                      |                      |                      |
 | :-:                | :-:                | :-:                  | :-:                  | :-:                  | :-:                  | :-:                  |
@@ -33,7 +33,7 @@ Le nombre de cases pouvant être franchies par un pion pendant un déplacement n
 
 
 Un joueur doit obligatoirement déplacer un pion par tour. 
-S'il se voit dans l’incapacité de bouger ses pièces$^{\text{fig. 2}}$ alors il doit passer.
+S'il se voit dans l’incapacité de bouger ses pièces*(fig2)* alors il doit passer.
 
 |                    |                    |                    |                    |                    |                    |
 | :-:                | :-:                | :-:                | :-:                | :-:                | :-:                |
@@ -48,16 +48,16 @@ S'il se voit dans l’incapacité de bouger ses pièces$^{\text{fig. 2}}$ alors 
 
 ### Capture des pièces
 Un joueur **A** peut capturer une pièce adverse si il la prend en tenaille, 
-c'est à dire si la pièce du joueur **B** voit ses cases immédiatement à gauche et à droite$^{\text{fig. 3}}$ (ou en haut et en bas$^{\text{fig. 4}}$) occupées par le joueur **A**. 
-De même un joueur peut capturer une suite de pions adverses si ceux-ci sont consécutifs et voient leurs extrémités prises$^{\text{fig. 5}}$
-Enfin une pièce dans un coin peut être capturée si ses deux cases adjacentes sont occupées par un pion adverse$^{\text{fig. 6}}$.
+c'est à dire si la pièce du joueur **B** voit ses cases immédiatement à gauche et à droite*(fig3)* (ou en haut et en bas*(fig4)*)) occupées par le joueur **A**. 
+De même un joueur peut capturer une suite de pions adverses si ceux-ci sont consécutifs et voient leurs extrémités prises*(fig5)*
+Enfin une pièce dans un coin peut être capturée si ses deux cases adjacentes sont occupées par un pion adverse*(fig6)*.
 Cependant deux pièces ou plus dans un coin sont incapturables.
 
 > note:
 > on ne peut perdre un de ses pions durant son tour.
 > Ainsi, déplacer son pion entre deux pions adverses ne résulte pas en une capture    
 
-<br/><br/>
+
 
 |                    |                    |                    |                    |                    |
 | :-:                | :-:                | :-:                | :-:                | :-:                |
@@ -97,7 +97,7 @@ Cependant deux pièces ou plus dans un coin sont incapturables.
 
 ### Variantes:
 
-- capturer deux pièces ou plus dans les coins$^{\text{fig. 7}}$:
+- capturer deux pièces ou plus dans les coins*(fig7)*:
 > Par défaut on ne peut pas capturer deux pièces ou plus dans les coins, cependant cette règle peut être modifiée afin de pouvoir bloquer et capturer les pièces d'angle.
 
 
@@ -110,7 +110,7 @@ Cependant deux pièces ou plus dans un coin sont incapturables.
 *figure 7*
 
 
-- capturer les pièces en diagonales$^{\text{fig. 8}}$
+- capturer les pièces en diagonales*(fig8)*
 > Par défaut on ne peut pas capturer diagonalement une ou plusieurs pièces. Cette règle peut être modifiée afin de rendre ce comportement possible.
 
 
@@ -150,7 +150,7 @@ Max est le joueur qui lance l'algorithme et qui souhaite gagner. Min est son adv
 
 ![MiniMax](minimax.png "MiniMax algorithme")
 
-<br/>
+
 
 #### AlphaBeta
     
@@ -178,14 +178,15 @@ Les niveaux de difficulté proposés par le jeu proposent des fonctions d'évalu
 
 Il existe différentes façon d'implémenter une fonction d'évaluation:
 
-- *la fonction linéaire*
-$$\sum{\alpha_i \times critere_i}$$
+- *la fonction linéaire*: 
+> a1c1 + a2c2 + a3c3 + ... avec a coefficient et c le résultat du critère
+
     
 - *la fonction logistique*
-$$\frac{1}{1 + e^{\sum{\alpha_i \times critere_i}}}$$
+> 1 / (1 + e^(a1c1 + a2c2 + a3c3 + ...))
 
 - *la fonction polynomiale* 
-$$\sum{\alpha_i \times critere_i^{\beta_i}}$$
+> a1c1^p1 + a2c2^p2 + a3c3^p3 + ... avec p puissance
 
 La fonction d’évaluation permet de donner toute la finesse aux algorithmes de recherches. C'est elle qui va déterminer si une intelligence artificielle va être performante ou non dans notre cas. On peut raisonnablement imaginer faire une fonction très complexe et très proche de la réalité prenant tous les paramètres nécessaires. Cependant, cette fonction ralentirait énormément le parcours de l'arbre, car la fonction d'évaluation est appelée à chaque nœud.
 Il faut donc trouver le bon compromis entre précision de l'évaluation de la position et rapidité d’exécution pour le parcours de l'arbre.
@@ -199,18 +200,18 @@ Nous avons choisi ces quatre critères qui permettent un jeu agressif et perform
 
 - Matériel
 > Le critère matériel calcule la différence entre le nombre de pion du joueur courant avec le nombre de pions de l'adversaire. Ce critère rend l'Intelligence Artificielle beaucoup plus agressive, cependant, ce seul critère ne suffit pas à prendre en compte la meilleure solution possible.     
-$\sum{materiel_A} - \sum{materiel_B}$ 
+ 
     
 - Mobilité
-> Ce critère permet de favoriser la mobilité des pions. Ainsi, entre deux coups possibles, l'Intelligence Artificielle préférera le coup qui lui permettra la plus grande mobilité, ou qui réduira celle de l'adversaire.   $\sum{mobilite_A} - \sum{mobilite_B}$
+> Ce critère permet de favoriser la mobilité des pions. Ainsi, entre deux coups possibles, l'Intelligence Artificielle préférera le coup qui lui permettra la plus grande mobilité, ou qui réduira celle de l'adversaire.   
     
 - Menace
 > Le critère de menace représente le nombre de pions susceptibles d'être pris au tour suivant. L'Intelligence Artificielle favorisera ainsi les coups mettant le plus de pions adverses en position d'échec, tout en minimisant la menace adverse.   
-$\sum{menace_A} - \sum{menace_B}$
+
 
 - Paramètre aléatoire
 > Le paramètre aléatoire est là pour casser le côté répétitif et prévisible des parties. En effet avec les critères précédents *(à chaque fois un delta du paramètre pour les deux joueurs)* on arrive souvent à des positions ayant la même valeur tout au long du jeu, entraînant une grande prévisibilité (pour des positions ayant un même score, l'algorithme choisit toujours le premier). Sachant que le pas minimum pour le score des autres paramètres est 1, nous avons choisi d'intégrer à chaque score un nombre aléatoire compris entre 0 et 0.10, assurant une grande variabilité des parties jouées sans altérer la pertinence du coup.    
-$rand[0 - 0.10]$
+
 
 #### Pondération
 
@@ -223,7 +224,6 @@ Nous avons utilisé les différentes expérimentations pour nourrir les niveaux 
 * les fonctions "faibles" n'utilisent que certains critères.
 * les fonctions "plus fortes" utilisent tous les critères avec les meilleurs réglages.
 
-<br/><br/>
 
 #### Niveaux de difficulté
 
