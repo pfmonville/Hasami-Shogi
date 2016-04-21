@@ -103,7 +103,8 @@ Cependant deux pièces ou plus dans un coin sont incapturables.
 
 ### Variantes:
 
-- capturer deux pièces ou plus dans les coins*(fig7)*:
+- capturer deux pièces ou plus dans les coins*(fig7)*
+
 > Par défaut on ne peut pas capturer deux pièces ou plus dans les coins, cependant cette règle peut être modifiée afin de pouvoir bloquer et capturer les pièces d'angle.
 
 
@@ -117,6 +118,7 @@ Cependant deux pièces ou plus dans un coin sont incapturables.
 
 
 - capturer les pièces en diagonales*(fig8)*
+
 > Par défaut on ne peut pas capturer diagonalement une ou plusieurs pièces. Cette règle peut être modifiée afin de rendre ce comportement possible.
 
 
