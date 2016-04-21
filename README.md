@@ -247,7 +247,7 @@ L'équipe est très satisfaite des résultats obtenus. l'intelligence artificiel
 
 ### Améliorations possibles
 
-Pour les fonctions de recherches, d'autres peuvent être envisagés:
+Pour les fonctions de recherches, d'autres algorithmes peuvent être envisagés:
 - SSS*
 - scout
 - MTD-F
