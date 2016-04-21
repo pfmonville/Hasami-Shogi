@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Regles;
@@ -32,7 +33,7 @@ public class App extends Application {
 	//instancie la regle du jeu
 	public static Regles regles = new Regles();
 	
-	//Instancie le thème pour le plateau et les pions
+	//Instancie le thÃ¨me pour le plateau et les pions
 	public static Theme theme = new Theme();
 	
 	public static void main(String[] args) {
@@ -50,6 +51,8 @@ public class App extends Application {
 		mainLayout.getChildren().add(sv.getPanel());
 		
 		scene = new Scene(mainLayout);
+		scene.addEventFilter(KeyEvent.ANY, KeyEvent::consume);
+
 		chargerCSS("css/appli.css", scene);
 		
 		stage.setScene(scene);
@@ -65,6 +68,15 @@ public class App extends Application {
 		sv = new StartView(600, 600);
 		gameController.finish();
 	}
+	
+	public static void replay(){
+		//supprimer l'ancien PlateauView de la vue
+		mainLayout.getChildren().remove(pv.getPanel());
+		//recharger le PlateauView
+		pv = new PlateauView(600, 600);
+		//on relance le jeu
+		gameController.restart();
+	}
 
 	public static void changementFenetre(Pane aEffacer, Pane aAfficher) throws IOException{
 		mainLayout.getChildren().remove(aEffacer);
@@ -72,7 +84,7 @@ public class App extends Application {
 	}
 	
 	public static void chargerCSS(String chemin, Scene scene){
-		scene.getStylesheets().add(chemin); 
+		scene.getStylesheets().add(chemin);
 	}
 	
 }

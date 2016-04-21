@@ -17,7 +17,7 @@ public class StartView extends View{
 	public StartView(int x, int y){
 		super(x, y);
 		
-		//initialisation des éléments à  afficher
+		//initialisation des Ã©lÃ©ments Ã  afficher
 		jouer = new Button("Jouer");
 		quitter = new Button("Quitter");
 		titre = new Text("Hasami Shogi");
@@ -32,7 +32,7 @@ public class StartView extends View{
 		menu.add(quitter);
 		super.menuRapide(menu, 1, 100, 300, 100);
 		
-		//ajout des éléments au panel
+		//ajout des Ã©lÃ©ments au panel
 		ajouterElement(jouer);
 		ajouterElement(quitter);
 		ajouterElement(titre);

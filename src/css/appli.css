@@ -48,3 +48,9 @@
     -fx-background-radius: 20;
     -fx-padding: 7;
 }
+
+#boutonInvisible{
+	-fx-opacity:1;
+	-fx-background-color:transparent;
+	-fx-border-color:transparent;
+}

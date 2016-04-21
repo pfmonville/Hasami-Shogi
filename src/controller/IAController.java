@@ -24,13 +24,18 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	private Case caseAlreadyPlayed2 = null;
 	private Pion pionAlreadyPlayed2 = null;
 	
+	private static boolean playTemporarilyForHuman = false;
+	private static ArrayList<Pion> pionsHumain1;
+	private static ArrayList<Pion> pionsHumain2;
+	private static Joueur humain1;
+	
 	public IAController(Joueur joueur){
 		this.IA = joueur;
 	}
 	
 	
 	/**
-	 * fonction principale de IAController qui calcul le meilleur coup possible et effectue le déplacement
+	 * fonction principale de IAController qui calcul le meilleur coup possible et effectue le dÃ©placement
 	 */
 	@Override
 	public void playAMove(){
@@ -45,7 +50,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			
 			switch (niveau){
 			
-			//minimax profondeur 3 sans boost avec fonction d'évaluation non complète et randomisation ultérieure
+			//minimax profondeur 3 sans boost avec fonction d'Ã©valuation non complÃ¨te et randomisation ultÃ©rieure
 			case 1:
 				try {
 					result = MinMax.minMaxDecision(3, pionsIA, pionsAdversaire, new EvaluatePosition.Setup(true, 1, false, 0, false, 0, true));
@@ -56,7 +61,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 				}
 				break;
 				
-			//minimax profondeur 3 avec fonction d'évaluation complète
+			//minimax profondeur 3 avec fonction d'Ã©valuation complÃ¨te
 			case 2:
 				try {
 					result = MinMax.minMaxDecision(checkBoost(3), pionsIA, pionsAdversaire, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
@@ -67,28 +72,28 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 				}
 				break;
 				
-			//alphabeta profondeur 3 avec fonction d'évaluation non complète
+			//alphabeta profondeur 3 avec fonction d'Ã©valuation non complÃ¨te
 			case 3:
 				sci = AlphaBeta.launchAlphaBeta(pionsIA, pionsAdversaire, checkBoost(3), getCasePreviouslyPlayed(), getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 1, false, 0, false, 0, false));
 				pionToMove = sci.getPion();
 				caseWhereToMove = sci.getCase();
 				break;
 				
-			//minimax profondeur 4 sans boost avec fonction d'évaluation complète
+			//minimax profondeur 4 sans boost avec fonction d'Ã©valuation complÃ¨te
 			case 4:
 				sci = AlphaBeta.launchAlphaBeta(pionsIA, pionsAdversaire, 4, getCasePreviouslyPlayed(), getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 				pionToMove = sci.getPion();
 				caseWhereToMove = sci.getCase();
 				break;
 				
-			//negaMax profondeur 4 avec fonction d'évaluation complète
+			//negaMax profondeur 4 avec fonction d'Ã©valuation complÃ¨te
 			case 5:
 				sci = NegaMax.launchNegaMax(pionsIA, pionsAdversaire, checkBoost(4), getCasePreviouslyPlayed(),getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 				pionToMove = sci.getPion();
 				caseWhereToMove = sci.getCase();
 				break;
 				
-			//negamax profondeur 5 avec fonction d'évaluation complète
+			//negamax profondeur 5 avec fonction d'Ã©valuation complÃ¨te
 			case 6:
 				sci = NegaMax.launchNegaMax(pionsIA, pionsAdversaire, checkBoost(5), getCasePreviouslyPlayed(),getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 				pionToMove = sci.getPion();
@@ -106,9 +111,31 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	}
 	
 	/**
+	 * Permet de faire jouer l'IA Ã  la place du joueur (prend l'IA de niveau 5)
+	 * @param pionsJoueur1 les pions du joueur1
+	 * @param pionsJoueur2 les pions du joueur2
+	 * @param joueur1 la classe Joueur du joueur1
+	 */
+	public void  playAMoveForHuman(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Joueur joueur1){
+		int profondeurMax = 4;
+		if(pionsJoueur1.size() + pionsJoueur2.size() <= 8){
+			profondeurMax++;
+		}
+		ScoreCoupsInitiaux sci = null;
+		sci = NegaMax.launchNegaMax(pionsJoueur1, pionsJoueur2, profondeurMax, null, null, joueur1, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
+		Pion pionToMove = sci.getPion();
+		Case caseWhereToMove = sci.getCase();
+		App.gameController.getPlateauController().deplacerPion(pionToMove, caseWhereToMove, true);
+		ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionToMove, PlateauController.getCases());
+		App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
+		App.gameController.finTour();
+	}
+	
+	
+	/**
 	 * 
 	 * @param base la profondeur de base (int)
-	 * @return la profondeur sous forme d'entier augmentée de 1 si il y assez peu de pions sur le terrain permettant un calcul plus rapide
+	 * @return la profondeur sous forme d'entier augmentÃ©e de 1 si il y assez peu de pions sur le terrain permettant un calcul plus rapide
 	 */
 	public int checkBoost(int base){
 		if(pionsIA.size() + pionsAdversaire.size() <= 8){
@@ -118,22 +145,22 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	}
 	
 	/**
-	 * Permet de déplacer un pion sans altérer la partie graphique
-	 * @param pion le pion à déplacer
-	 * @param caseFinale la case d'arrivée
+	 * Permet de dÃ©placer un pion sans altÃ©rer la partie graphique
+	 * @param pion le pion Ã  dÃ©placer
+	 * @param caseFinale la case d'arrivÃ©e
 	 */
 	public static void deplacerPion(Pion pion, Case caseFinale){
 		//d'abord on supprime la reference du pion dans l'ancienne case
 		pion.getCasePlateau().setPion(null);
-		//on met à  jour le pion
+		//on met Ã  jour le pion
 		pion.setCasePlateau(caseFinale);
-		//on met à  jour la nouvelle case
+		//on met Ã  jour la nouvelle case
 		caseFinale.setPion(pion);
 	}
 	
 	/**
-	 * supprime la référence du pion à  supprimer de la liste de pions fournie 
-	 * @param pion le pion à supprimer 
+	 * supprime la rÃ©fÃ©rence du pion Ã  supprimer de la liste de pions fournie 
+	 * @param pion le pion Ã  supprimer 
 	 * @param pions la liste contenant le pion
 	 */
 	@SuppressWarnings("unchecked")
@@ -146,7 +173,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	/**
 	 * supprimer un groupe de pions de la liste des pions du joueur
-	 * @param pionsASupprimer les pions à supprimer
+	 * @param pionsASupprimer les pions Ã  supprimer
 	 * @param pions la liste de pions du joueur
 	 */
 	@SuppressWarnings("unchecked")
@@ -160,8 +187,8 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	
 	/**
-	 * permet de remettre les pions supprimés précedemment 
-	 * @param pionsARemettre la liste de pions à  remettre
+	 * permet de remettre les pions supprimÃ©s prÃ©cedemment 
+	 * @param pionsARemettre la liste de pions Ã  remettre
 	 * @param pions la liste des pions du joueur
 	 */
 	public static void remettrePion(List<Pion> pionsARemettre, List<Pion> pions){
@@ -172,7 +199,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 
 	/**
-	 * récupère le lien vers les pions de la partie
+	 * rÃ©cupÃ¨re le lien vers les pions de la partie
 	 * @param pionNoirs
 	 * @param pionBlancs
 	 */
@@ -189,7 +216,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	/**
 	 * 
-	 * @return la variable Joueur représentant ce controlleur
+	 * @return la variable Joueur reprÃ©sentant ce controlleur
 	 */
 	public Joueur getInformation(){
 		return this.IA;
@@ -197,13 +224,13 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	
 	/**
-	 * permet de savoir si la partie est terminée
+	 * permet de savoir si la partie est terminÃ©e
 	 * @param pionsIA les pions de l'ia appelant la fonction
 	 * @param pionsAdversaire les pions de joueur adverse
-	 * @return vrai si la partie est terminée faux sinon
+	 * @return vrai si la partie est terminÃ©e faux sinon
 	 */
 	public static boolean isGameOver(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire){
-		//si l'un des joueurs à  trop peu de pions
+		//si l'un des joueurs Ã  trop peu de pions
 		if(pionsIA.size() <= App.regles.getNbPiecesAvantDefaite()){
 			return true;
 		}
@@ -211,7 +238,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			return true;
 		}
 		
-		//si la règle sur l'écart trop grand est selectionnée
+		//si la rÃ©gle sur l'Ã©cart trop grand est selectionnÃ©e
 		if(App.regles.isEcartAvantDefaite()){
 			if(Math.abs(pionsIA.size() - pionsAdversaire.size()) > App.regles.getNbEcartAvantDefaite()){
 				return true;
@@ -223,18 +250,18 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	
 	/**
-	 * à appeler après isGameOver(); permet de savoir lequel des deux joueurs à gagner
-	 * @param pionsIA la liste des pions du joueur à tester
+	 * Ã  appeler aprÃ¨s isGameOver(); permet de savoir lequel des deux joueurs Ã  gagner
+	 * @param pionsIA la liste des pions du joueur Ã  tester
 	 * @param pionsAdversaire la liste des pions de son adversaire
-	 * @return vrai si le premier joueur à gagné; faux s'il n'a pas gagné (après l'appel de isGameOver() un résultat de faux indique une victoire de l'autre joueur)
+	 * @return vrai si le premier joueur Ã  gagnÃ©; faux s'il n'a pas gagnÃ© (aprÃ¨s l'appel de isGameOver() un rÃ©sultat de faux indique une victoire de l'autre joueur)
 	 */
 	public static boolean hasFirstPlayerWon(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire){
-		//si le joueur adverse à  trop peu de pions
+		//si le joueur adverse Ã  trop peu de pions
 		if(pionsAdversaire.size() <= App.regles.getNbPiecesAvantDefaite()){
 			return true;
 		}
 		
-		//si la règle sur l'écart trop grand est selectionnée
+		//si la rÃ©gle sur l'Ã©cart trop grand est selectionnÃ©e
 		if(App.regles.isEcartAvantDefaite()){
 			if(pionsIA.size() - pionsAdversaire.size() > App.regles.getNbEcartAvantDefaite()){
 				return true;
@@ -254,13 +281,13 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	 */
 	public static Case[][] initPlateau(ArrayList<Pion> pionsJoueurCourant, ArrayList<Pion> pionsAdversaire, Case[][] plateau){
 		for(Pion pion:pionsJoueurCourant){
-			//on met à  jour la nouvelle case
+			//on met Ã  jour la nouvelle case
 			plateau[pion.getCasePlateau().getCoordonneeX()][pion.getCasePlateau().getCoordonneeY()].setPion(pion);
 
 		}
 		
 		for(Pion pion:pionsAdversaire){
-			//on met à  jour la nouvelle case
+			//on met Ã  jour la nouvelle case
 			plateau[pion.getCasePlateau().getCoordonneeX()][pion.getCasePlateau().getCoordonneeY()].setPion(pion);
 		}
 		
@@ -269,7 +296,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	
 	/**
-	 * permet de savoir si le joueur peut se déplacer dans sa situation actuelle
+	 * permet de savoir si le joueur peut se dÃ©placer dans sa situation actuelle
 	 * @param pionsIA 
 	 * @return vrai si le joueur peut bouger faux sinon
 	 */
@@ -287,7 +314,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	
 	/**
-	 * mt à jour la case et le pion qui viennent d'être joués afin d'éviter les répétitions
+	 * met Ã  jour la case et le pion qui viennent d'Ãªtre jouÃ©s afin d'Ã©viter les rÃ©pÃ©titions
 	 * @param caseJustPlayed
 	 * @param pionJustePlayed
 	 */
@@ -300,7 +327,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	/**
 	 * 
-	 * @return la case sur laquelle il ne faudrait pas aller si c'est le même pion qui se déplace
+	 * @return la case sur laquelle il ne faudrait pas aller si c'est le mÃªme pion qui se dÃ©place
 	 */
 	public Case getCasePreviouslyPlayed(){
 		return caseAlreadyPlayed1;
@@ -308,23 +335,38 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	
 	/**
 	 * 
-	 * @return le pion qui ne doit pas se déplacer s'il se remet sur la même case
+	 * @return le pion qui ne doit pas se dÃ©placer s'il se remet sur la mÃªme case
 	 */
 	public Pion getPionPreviouslyPlayed(){
 		return pionAlreadyPlayed1;
 	}
 	
 	/**
-	 * fonction principale permettant de lancer l'ia et de gérer les threads de calcul et graphique
+	 * fonction principale permettant de lancer l'ia et de gÃ©rer les threads de calcul et graphique
 	 */
 	@Override
 	public void run(){
 		Platform.runLater(()->App.pv.printWaitingCursor());
 		//App.pv.putCursorInWait();
-		this.playAMove();
+		
+		if(playTemporarilyForHuman){
+			playAMoveForHuman(pionsHumain1, pionsHumain2, humain1);
+			playTemporarilyForHuman = false;
+			App.gameController.getJoueurs().get(humain1.getNumeroJoueur()).setHumain(true);
+		}else{
+			this.playAMove();
+		}
 		Platform.runLater(()->App.pv.removeWaitingCursor());
 		//App.pv.resetCursor();
 	}
+	
+	public void initToPlayForHuman(ArrayList<Pion> pionsHumain1, ArrayList<Pion> pionsHumain2, Joueur humain1){
+		IAController.playTemporarilyForHuman = true;
+		IAController.pionsHumain1 = pionsHumain1;
+		IAController.pionsHumain2 = pionsHumain2;
+		IAController.humain1 = humain1;
+	}
+	
 	
 	
 	public static class ScoreCoupsInitiaux{

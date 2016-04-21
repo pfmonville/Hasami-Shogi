@@ -9,6 +9,7 @@ import model.Joueur;
 
 public class GameController {
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
+	private IAController IAForHuman;
 	private static int joueurActuel = 0;
 	private ArrayList<PlayerController> controllers = new ArrayList<>();
 	private PlateauController plateauController; 
@@ -20,10 +21,10 @@ public class GameController {
 	
 	
 	/**
-	 * rÈcupËre les options spÈciales aux rËgles entrÈes par l'utilisateur dans optionView et modifie App.regles en consÈquence
+	 * r√©cup√®re les options sp√©ciales aux r√®gles entr√©es par l'utilisateur dans optionView et modifie App.regles en cons√©quence
 	 */
 	private void getRegles(){
-		//possibilitÈ de faire changer les rËgles dans l'UI
+		//possibilit√© de faire changer les r√®gles dans l'UI
 		//if(App.os.getEcartAvantDefaite() == true){
 		//	App.regles.setEcartAvantDefaite(true);
 		//}
@@ -50,7 +51,7 @@ public class GameController {
 	
 	
 	/**
-	 * rÈcupËre les informations du panneau d'option et crÈer deux joueurs correspondants
+	 * r√©cup√®re les informations du panneau d'option et cr√©er deux joueurs correspondants
 	 */
 	private void getJoueur(){
 		String iahuJ1 = App.ov.getIahuJ1().getSelectedToggle().getUserData().toString();
@@ -67,7 +68,7 @@ public class GameController {
 	
 	/**
 	 * renvoie l'indice du joueur dont c'est le tour
-	 * @return l'entier 0: premier joueur, 1: deuxiËme joueur
+	 * @return l'entier 0: premier joueur, 1: deuxi√®me joueur
 	 */
 	public int getNumeroActualJoueur(){
 		return joueurActuel;
@@ -77,7 +78,7 @@ public class GameController {
 	/**
 	 * permet de savoir si le joueur actuel est humain
 	 * @param joueur (int) : l'indice du joueur actuel 
-	 * @return vrai si le joueur est humain faux si le joueur est controllÈ par l'ia
+	 * @return vrai si le joueur est humain faux si le joueur est controll√© par l'ia
 	 */
 	public boolean isActualJoueurHuman(int joueur){
 		if (joueurs.get(joueur).isHumain()){
@@ -90,7 +91,7 @@ public class GameController {
 	 * renvoie l'index de l'autre joueur (celui pour qui ce n'est pas le tour)
 	 * @return
 	 */
-	public int autreJoueur(){
+	public int getNumeroAutreJoueur(){
 		return joueurActuel == 0 ? 1 : 0;	
 	}
 	
@@ -103,8 +104,8 @@ public class GameController {
 	}
 	
 	/**
-	 * appelÈe si le clic est valide est dÈclanche le coup du joueur humain
-	 * @param casePlateau la case sur laquelle on a cliquÈ
+	 * appel√©e si le clic est valide est d√©clanche le coup du joueur humain
+	 * @param casePlateau la case sur laquelle on a cliqu√©
 	 */
 	public void validClick(Case casePlateau){
 		((HumanController)(controllers.get(joueurActuel))).setCasePlateau(casePlateau);
@@ -112,20 +113,35 @@ public class GameController {
 	}
 	
 	
+	/**
+	 * appel si le joueur humain clique sur l'icone pour laisser l'ia jouer √† sa place
+	 */
+	public void IAPlayForHuman(){
+		joueurs.get(joueurActuel).setHumain(false);
+		if(joueurActuel == App.regles.getNumeroJoueurNoir()){
+			IAForHuman.initToPlayForHuman(plateauController.getPionsNoirs(), plateauController.getPionsBlancs(), joueurs.get(joueurActuel));
+		}
+		else{
+			IAForHuman.initToPlayForHuman(plateauController.getPionsBlancs(), plateauController.getPionsNoirs(), joueurs.get(joueurActuel));
+		}
+		Thread thread = new Thread((IAController)(IAForHuman));
+		thread.start();
+	}
+	
 	
 	/**
-	 * permet de savoir si la partie est gagnÈ par le joueur actuel
+	 * permet de savoir si la partie est gagn√© par le joueur actuel
 	 * @return vrai si le coup que le joueur actuel vient d'effectuer entraine une victoire. Faux sinon
 	 */
 	private boolean testVictoire(){
-		//si le joueur adverse ‡† trop peu de pions (pendant son tour on ne peut perdre un de ses pions)
-		if(joueurs.get(autreJoueur()).getNbPions() <= App.regles.getNbPiecesAvantDefaite()){
+		//si le joueur adverse √† trop peu de pions (pendant son tour on ne peut perdre un de ses pions)
+		if(joueurs.get(getNumeroAutreJoueur()).getNbPions() <= App.regles.getNbPiecesAvantDefaite()){
 			return true;
 		}
 		
-		//si la rËgle sur l'Ècart trop grand est selectionnÈe
+		//si la r√®gle sur l'√©cart trop grand est selectionn√©e
 		if(App.regles.isEcartAvantDefaite()){
-			if(joueurs.get(joueurActuel).getNbPions() - joueurs.get(autreJoueur()).getNbPions() > App.regles.getNbEcartAvantDefaite()){
+			if(joueurs.get(joueurActuel).getNbPions() - joueurs.get(getNumeroAutreJoueur()).getNbPions() > App.regles.getNbEcartAvantDefaite()){
 				return true;
 			}
 		}
@@ -140,20 +156,20 @@ public class GameController {
 	 * sinon il suffit d'attendre le clique de l'humain
 	 */
 	public void finTour(){
-		//si la partie est finie, on dÈsactive les clics et on affiche le gagnant
+		//si la partie est finie, on d√©sactive les clics et on affiche le gagnant
 		
 		if(testVictoire()){ 
 			Platform.runLater(()-> App.pv.setWinnerTextInTopBanner(this.getNumeroActualJoueur()));
 			App.pv.stopMouseListener();
+			App.pv.displayEndGameButtons();
 		}else{
 			this.nextJoueur();
-			//On met ‡† jour l'image du joueur actuel
+			//On met √† jour l'image du joueur actuel
 			Platform.runLater(()-> App.pv.switchImageJoueur(joueurActuel));
 			//si le prochain joueur est une IA 
 			if(!this.isActualJoueurHuman(joueurActuel)){
 				Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 				thread.start();
-				//controllers.get(joueurActuel).playAMove();
 			}
 			//sinon on attend le clique du joueur humain
 		}
@@ -168,7 +184,6 @@ public class GameController {
 		if(!this.isActualJoueurHuman(joueurActuel)){
 			Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 			thread.start();
-			//controllers.get(joueurActuel).playAMove();
 		}
 	}
 
@@ -199,7 +214,7 @@ public class GameController {
 	}
 	
 	/**
-	 * fonction mËre du controlleur lancant la partie
+	 * fonction m√®re du controlleur lancant la partie
 	 */
 	public void begin(){
 		this.getRegles();
@@ -210,9 +225,18 @@ public class GameController {
 		}else{
 			GameController.allIA = false;
 		}
+		//on r√®gle une IA sp√©ciale pour jouer √† la place du joueur
+		if(!allIA){
+			IAForHuman = new IAController(null);
+		}
 		this.startGame();
 	}
 	
+	
+	public void restart(){
+		this.finish();
+		this.begin();
+	}
 	
 	/**
 	 * fonction de fin de partie ou lors du retour 
@@ -221,7 +245,7 @@ public class GameController {
 		controllers = new ArrayList<>();
 		joueurs = new ArrayList<>();
 		joueurActuel = 0;
-		App.pv.resetCursor();
+		//App.pv.resetCursor();
 		if(App.pv.getPanel().getChildren().contains(App.pv.getCursor())){
 			App.pv.removeWaitingCursor();
 		}

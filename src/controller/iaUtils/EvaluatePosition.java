@@ -12,12 +12,12 @@ public class EvaluatePosition {
 
 	
 	/**
-	 * permet d'évaluer la position actuelle du plateau
+	 * permet d'Ã©valuer la position actuelle du plateau
 	 * @param pionsJoueur1
 	 * @param pionsJoueur2
 	 * @param cases un tableau 2 dimensions contenant les cases du plateau
-	 * @param setup classe spécial permettant de régler la fonction d'évaluation(combien de coefs pris en compte, les valeurs des coefs, si on randomise après)
-	 * @return un double représentant le score vu du joueur1
+	 * @param setup classe spÃ©cial permettant de rÃ©gler la fonction d'Ã©valuation(combien de coefs pris en compte, les valeurs des coefs, si on randomise aprÃ¨s)
+	 * @return un double reprÃ©sentant le score vu du joueur1
 	 */
 	public static double evaluate(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Case[][] cases, Setup setup){
 
@@ -39,7 +39,7 @@ public class EvaluatePosition {
 
 	/**
 	 * 
-	 * @return valeur maximale de la fonction d'évalutation
+	 * @return valeur maximale de la fonction d'Ã©valutation
 	 */
 	public static double maxValuePossible(){
 		return Double.MAX_VALUE;
@@ -47,7 +47,7 @@ public class EvaluatePosition {
 
 	/**
 	 * 
-	 * @return l'équivalent de + l'infini
+	 * @return l'Ã©quivalent de + l'infini
 	 */
 	public static double getScorePartieFinie(){
 		return scorePartieFinie;
@@ -55,22 +55,22 @@ public class EvaluatePosition {
 
 
 	/**
-	 * calcul le score lié au matériel
+	 * calcul le score liÃ© au matÃ©riel
 	 * @param pionsJoueur1 la liste des pions du joueur1
 	 * @param pionsJoueur2 la liste des pions du joueur2
-	 * @param toMaximased booléen mis à  vrai si on veut récupérer le score maximum que peut générer cette fonction
-	 * @return un double représentant le nombre de pions du joueur1 moins celui du joueur 2
+	 * @param toMaximased boolÃ©en mis Ã  vrai si on veut rÃ©cupÃ©rer le score maximum que peut gÃ©nÃ©rer cette fonction
+	 * @return un double reprÃ©sentant le nombre de pions du joueur1 moins celui du joueur 2
 	 */
 	private static double evaluateMaterial(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2){
-		//TODO ajuster la défense de l'IA
+		//TODO ajuster la dÃ©fense de l'IA
 		return pionsJoueur1.size() - pionsJoueur2.size();
 	}
 
 
 	/**
-	 * calcul le score lié à  la mobilité du joueur
-	 * @param toMaximised booléen mis à  vrai si on veut récupérer le score maximum que peut générer cette fonction
-	 * @return un double représentant le nombre de cases atteignables par tous les pions du joueur1 moins celles du joueur2
+	 * calcul le score liÃ© Ã  la mobilitÃ© du joueur
+	 * @param toMaximised boolÃ©en mis Ã  vrai si on veut rÃ©cupÃ©rer le score maximum que peut gÃ©nÃ©rer cette fonction
+	 * @return un double reprÃ©sentant le nombre de cases atteignables par tous les pions du joueur1 moins celles du joueur2
 	 */
 	private static double evaluateMobility(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2,Case[][] cases){
 		int compteurDeplacementPossibleJoueur1 = 0;
@@ -88,11 +88,11 @@ public class EvaluatePosition {
 
 
 	/**
-	 * calcul le score lié à  la menace du joueur
+	 * calcul le score liÃ© Ã  la menace du joueur
 	 * @param pionsJoueur1 la liste des pions du joueur1
 	 * @param pionsJoueur2 la liste des pions du joueur2
-	 * @param toMaximised booléen mis à  vrai si on veut récupérer le score maximum que peut générer cette fonction
-	 * @return un double représentant le nombre de pions que le joueur1 menace de prendre en un coup moins ceux de son adversaire
+	 * @param toMaximised boolÃ©en mis Ã  vrai si on veut rÃ©cupÃ©rer le score maximum que peut gÃ©nÃ©rer cette fonction
+	 * @return un double reprÃ©sentant le nombre de pions que le joueur1 menace de prendre en un coup moins ceux de son adversaire
 	 */
 	private static double evaluateThreat2(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Case[][] plateau){
 		
@@ -163,7 +163,7 @@ public class EvaluatePosition {
 				}
 			}
 			
-			//test si le pion est vraiment en position d'échec en vérifiant que la case vide à  côté peut être atteinte directement par un pion du joueur 1
+			//test si le pion est vraiment en position d'Ã©chec en vÃ©rifiant que la case vide a Ã©tÃ© peut-Ãªtre atteinte directement par un pion du joueur 1
 			if(caseVideGauche != null && check(plateau, caseVideGauche, pion.getNumeroJoueur())){
 				menaceJoueur1 += groupeGauche;
 			}
@@ -249,7 +249,7 @@ public class EvaluatePosition {
 				}
 			}
 
-			//test si le pion est vraiment en position d'échec en vérifiant que la case vide à  côté peut être atteinte directement par un pion du joueur 2
+			//test si le pion est vraiment en position d'Ã©chec en vÃ©rifiant que la case vide a Ã©tÃ© peut Ãªtre atteinte directement par un pion du joueur 2
 			if(caseVideGauche != null && check(plateau, caseVideGauche, pion.getNumeroJoueur())){
 				menaceJoueur2 += groupeGauche;
 			}
@@ -264,9 +264,9 @@ public class EvaluatePosition {
 			}
 		}
 		
-		// cas spécial des coins
+		// cas spÃ©cial des coins
 		int indiceMax = App.regles.getNbDeCaseParLigne() - 1;
-		//en haut à  gauche
+		//en haut Ã  gauche
 		if(plateau[0][0].getPion() != null){
 			if(plateau[0][1].getPion() != null && plateau[1][0].getPion() == null && plateau[0][1].getPion().getNumeroJoueur() != plateau[0][0].getPion().getNumeroJoueur()){
 				if (check(plateau, plateau[1][0], plateau[0][0].getPion().getNumeroJoueur())){
@@ -289,7 +289,7 @@ public class EvaluatePosition {
 				}
 			}
 		}
-		//en bas à  gauche
+		//en bas Ã  gauche
 		if(plateau[0][indiceMax].getPion() != null){
 			if(plateau[0][indiceMax-1].getPion() != null && plateau[1][indiceMax].getPion() == null && plateau[0][indiceMax-1].getPion().getNumeroJoueur() != plateau[0][indiceMax].getPion().getNumeroJoueur()){
 				if (check(plateau, plateau[1][indiceMax], plateau[0][indiceMax].getPion().getNumeroJoueur())){
@@ -312,7 +312,7 @@ public class EvaluatePosition {
 				}
 			}
 		}
-		//en haut à  droite
+		//en haut Ã  droite
 		if(plateau[indiceMax][0].getPion() != null){
 			if(plateau[indiceMax][1].getPion() != null && plateau[indiceMax- 1][0].getPion() == null && plateau[indiceMax][1].getPion().getNumeroJoueur() != plateau[indiceMax][0].getPion().getNumeroJoueur()){
 				if (check(plateau, plateau[indiceMax-1][0], plateau[indiceMax][0].getPion().getNumeroJoueur())){
@@ -335,7 +335,7 @@ public class EvaluatePosition {
 				}
 			}
 		}
-		//en bas à  droite
+		//en bas Ã  droite
 		if(plateau[indiceMax][indiceMax].getPion() != null){
 			if(plateau[indiceMax][indiceMax-1].getPion() != null && plateau[indiceMax- 1][indiceMax].getPion() == null && plateau[indiceMax][indiceMax-1].getPion().getNumeroJoueur() != plateau[indiceMax][indiceMax].getPion().getNumeroJoueur()){
 				if (check(plateau, plateau[indiceMax-1][indiceMax], plateau[indiceMax][indiceMax].getPion().getNumeroJoueur())){
@@ -366,9 +366,9 @@ public class EvaluatePosition {
 	/**
 	 * Permet de savoir si un pion appartenant au joueur numeroJoueur peut aller sur la case caseVide
 	 * @param plateau le plateau de jeu
-	 * @param caseVide la case à  considérer
-	 * @param numeroJoueur le numéro du joueur à  considérer
-	 * @return vrai si le joueur peut déplacer un de ses pions sur la case faux sinon
+	 * @param caseVide la case Ã  considÃ©rer
+	 * @param numeroJoueur le numÃ©ro du joueur Ã  considÃ©rer
+	 * @return vrai si le joueur peut dÃ©placer un de ses pions sur la case faux sinon
 	 */
 	private static boolean check(Case[][] plateau, Case caseVide, int numeroJoueur){
 		int x = caseVide.getCoordonneeX();
@@ -376,7 +376,7 @@ public class EvaluatePosition {
 		//vers la droite
 		for(int i = x+1; i < App.regles.getNbDeCaseParLigne(); i++){
 			if(plateau[i][y].getPion() != null){
-				//si le pion appartient à  l'adversaire alors la menace est réelle
+				//si le pion appartient Ã  l'adversaire alors la menace est rÃ©elle
 				if(plateau[i][y].getPion().getNumeroJoueur() != numeroJoueur){
 					return true;
 				}else{
@@ -387,7 +387,7 @@ public class EvaluatePosition {
 		//vers la gauche
 		for(int i = x-1; i >= 0; i--){
 			if(plateau[i][y].getPion() != null){
-				//si le pion appartient à  l'adversaire alors la menace est réelle
+				//si le pion appartient Ã  l'adversaire alors la menace est rÃ©elle
 				if(plateau[i][y].getPion().getNumeroJoueur() != numeroJoueur){
 					return true;
 				}else{
@@ -398,7 +398,7 @@ public class EvaluatePosition {
 		//vers le haut
 		for(int j = y+1; j < App.regles.getNbEcartAvantDefaite(); j++){
 			if(plateau[x][j].getPion() != null){
-				//si le pion appartient à  l'adversaire alors la menace est réelle
+				//si le pion appartient Ã  l'adversaire alors la menace est rÃ©elle
 				if(plateau[x][j].getPion().getNumeroJoueur() != numeroJoueur){
 					return true;
 				}else{
@@ -409,7 +409,7 @@ public class EvaluatePosition {
 		// vers le bas
 		for(int j = y-1; j >= 0; j--){
 			if(plateau[x][j].getPion() != null){
-				//si le pion appartient à  l'adversaire alors la menace est réelle
+				//si le pion appartient Ã  l'adversaire alors la menace est rÃ©elle
 				if(plateau[x][j].getPion().getNumeroJoueur() != numeroJoueur){
 					return true;
 				}else{
@@ -422,13 +422,13 @@ public class EvaluatePosition {
 	}
 
 	/**
-	 * renvoie le nombre de déplacement possible pour le pion
-	 * @param pion le pion qui veut se déplacer
-	 * @param cases le plateau sur lequel il faut calculer les déplacements possibles
-	 * @return un entier représentant le nombre de déplacements possibles pour le pion sur le plateau
+	 * renvoie le nombre de dÃ©placement possible pour le pion
+	 * @param pion le pion qui veut se dÃ©placer
+	 * @param cases le plateau sur lequel il faut calculer les dÃ©placements possibles
+	 * @return un entier reprÃ©sentant le nombre de dÃ©placements possibles pour le pion sur le plateau
 	 */
 	public static int getNumberOfPossibleMoves(Pion pion, Case[][] cases){
-		//récupère les coodronnées du pion
+		//rÃ©cupÃ©re les coodronnÃ©es du pion
 		int pionX = pion.getCasePlateau().getCoordonneeX();
 		int pionY = pion.getCasePlateau().getCoordonneeY();
 		int compteur = 0;
@@ -440,7 +440,7 @@ public class EvaluatePosition {
 			if(cases[i][pionY].getPion() == null){
 				compteur++;
 			}else{
-				//à  partir de là  il n'y a plus de déplacements valides
+				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
 				break;
 			}
 		}
@@ -451,7 +451,7 @@ public class EvaluatePosition {
 			if(cases[i][pionY].getPion() == null){
 				compteur++;
 			}else{
-				//à  partir de là  il n'y a plus de déplacements valides
+				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
 				break;
 			}
 		}
@@ -461,7 +461,7 @@ public class EvaluatePosition {
 			if(cases[pionX][i].getPion() == null){
 				compteur++;
 			}else{
-				//à  partir de là  il n'y a plus de déplacements valides
+				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
 				break;
 			}
 		}
@@ -471,7 +471,7 @@ public class EvaluatePosition {
 			if(cases[pionX][i].getPion() == null){
 				compteur++;
 			}else{
-				//à  partir de là  il n'y a plus de déplacements valides
+				//Ã  partir de lÃ  il n'y a plus de dÃ©placements valides
 				break;
 			}
 		}
@@ -538,9 +538,9 @@ public class EvaluatePosition {
 
 
 
-//possibilités
+//possibilitÃ©s
 
-//linéaire
+//linÃ©aire
 //score = alpha1 * contrainte1 + alpha2 * contrainte2 
 
 //logistique

@@ -53,11 +53,14 @@ public class OptionView extends View{
 		//*********************************************************//
 
 
-		//initialisation des élements a afficher
+		//initialisation des Ã©lements Ã  afficher
 		
-		//instancie les icones humain, ia
-		Image iconIA = new Image("image/humanIcon.png");
-		Image iconHU = new Image("image/IAIcon.png");
+		//instancie les icones humain, ia, niveau
+		Image iconHU = new Image("image/humanIcon.png");
+		Image iconIA = new Image("image/IAIcon.png");
+		Image niveau = new Image("image/strength1.png");
+		@SuppressWarnings("unused")
+		Image niveau2 = new Image("image/strength2.png");
 		
 		//*********************************************************//
 		//CHOIX HUMAIN OU IA J1
@@ -120,7 +123,8 @@ public class OptionView extends View{
 		//*********************************************************//
 		//CHOIX NIVEAU J1
 		
-		labelnvj1 = new Label("\tNiveau : ");
+		labelnvj1 = new Label("");
+		labelnvj1.setGraphic(new ImageView(niveau));
 		labelnvj1.setId("niveau");
 		nv1j1 = new RadioButton("1");
 		nv1j1.setUserData("1");
@@ -153,7 +157,7 @@ public class OptionView extends View{
 		nv3j1.setSelected(true);
 		
 		//AJOUT DES ELEMENTS A LA LISTE
-		listej1.addAll(Arrays.asList(labelnvj1, nv1j1, nv2j1, nv3j1, nv4j1, nv5j1, nv6j1));
+		listej1.addAll(Arrays.asList(new Text("\t"), labelnvj1, new Text("   "), nv1j1, nv2j1, nv3j1, nv4j1, nv5j1, nv6j1));
 		
 		//*********************************************************//
 
@@ -166,7 +170,8 @@ public class OptionView extends View{
 		//*********************************************************//
 		//CHOIX NIVEAU J2
 
-		labelnvj2 = new Label("\tNiveau : ");
+		labelnvj2 = new Label();
+		labelnvj2.setGraphic(new ImageView(niveau));
 		labelnvj2.setId("niveau");
 		nv1j2 = new RadioButton("1");
 		nv1j2.setUserData("1");
@@ -192,7 +197,7 @@ public class OptionView extends View{
 		nv3j2.setSelected(true);
 		
 		//AJOUT DES ELEMENTS A LA LISTE
-		listej2.addAll(Arrays.asList(labelnvj2, nv1j2, nv2j2, nv3j2, nv4j2, nv5j2, nv6j2));
+		listej2.addAll(Arrays.asList(new Text("\t"), labelnvj2, new Text("   "),nv1j2, nv2j2, nv3j2, nv4j2, nv5j2, nv6j2));
 		
 		//*********************************************************//
 		
@@ -269,7 +274,7 @@ public class OptionView extends View{
 		
 		valider = new Button("Valider");
 		
-		// action du bouton: changement de la fenètre vers le plateau
+		// action du bouton: changement de la fenÃ¨tre vers le plateau
 		valider.setOnAction((event)->{
 			//Lancement du controlleur de jeu
 			App.gameController.begin();
@@ -318,7 +323,7 @@ public class OptionView extends View{
 		//mise en page du titre
 		super.miseEnPageTexteCentre(titre, (int)(super.getPanel().getPrefWidth()), 150);
 		
-		//ajout du titre à  optionview
+		//ajout du titre Ã  optionview
 		super.getPanel().getChildren().add(titre);
 		
 		//*********************************************************//

@@ -234,14 +234,19 @@ Nous avons utilisé les différentes expérimentations pour nourrir les niveaux 
 
 
 #### Niveaux de difficulté
+le boost est appliqué quand il reste moins de 8 poins sur le terrain et augmente la profondeur de 1 pour l'IA qui l'utilise.
 
 La difficulté dans notre jeux est ordonnée du moins fort au plus fort.    
-La version 1 et 4 utilisent minimax.    
-la version 2 et 5 utilisent alpha-beta.
-la version 3 et 6 utilisent NegaMax.    
+La version 1 et 2 utilisent minimax mais sans vérifier les cas de game-over.    
+la version 3 et 4 utilisent alpha-beta.
+la version 5 et 6 utilisent NegaMax.    
 
-les version 1,2,3 utilisent une version simplifiée de la fonction d'évaluation et les version 4,5,6 la meilleur fonction d'évaluation avec les meilleures pondérations.
-
+la version 1 est en profondeur 3 et utilise la fonction d'évaluation simple et est la seule à utiliser la randomisation ultérieure des coups (moins bon).    
+la version 2 est en profondeur 3 avec boost et utilise la fonction d'évaluation complète.    
+la version 3 est comme la 2 mais sans la fonction d'évaluation complète.          
+la version 4 est en profondeur 4 sans boost et utilise la fonction d'évaluation complète.    
+la version 5 est comme la 4 mais avec le boost.    
+la version 6 est comme la 5 mais en profondeur 5.    
 
 ### Résultats finaux
 

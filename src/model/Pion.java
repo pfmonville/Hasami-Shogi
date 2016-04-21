@@ -155,13 +155,13 @@ public class Pion extends Elements implements Comparable<Pion>, Cloneable{
 	
 
 	/**
-	 * si affiche est à  true, alors affiche un cercle rouge 
+	 * si affiche est Ã  true, alors affiche un cercle rouge 
 	 * sinon affiche rien
-	 * @param affiche boolean indiquant si le cercle doit être affiché ou non
+	 * @param affiche boolean indiquant si le cercle doit Ãªtre affichÃ© ou non
 	 */
-	public void setCircle(boolean affiche){
+	public void setCircle(boolean affiche, Color couleur){
 		if(affiche)
-			cercle.setFill(Color.BROWN);
+			cercle.setFill(couleur);
 		else
 			cercle.setFill(Color.TRANSPARENT);
 	}
