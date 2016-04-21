@@ -54,18 +54,25 @@ public class OptionView extends View{
 
 
 		//initialisation des élements a afficher
-
+		
+		//instancie les icones humain, ia
+		Image iconIA = new Image("image/humanIcon.png");
+		Image iconHU = new Image("image/IAIcon.png");
+		
 		//*********************************************************//
 		//CHOIX HUMAIN OU IA J1
 		
 		Image imageJ1 = new Image("image/gogui-black-32x32.png");
+		
 		ImageView imagevJ1 = new ImageView(imageJ1);
 		imagevJ1.setFitHeight(28);
 		imagevJ1.setPreserveRatio(true);
-		iaJ1 = new RadioButton("IA");
+		iaJ1 = new RadioButton();
 		iaJ1.setUserData("ia");
-		huJ1 = new RadioButton("HU");
+		iaJ1.setGraphic(new ImageView(iconIA));
+		huJ1 = new RadioButton();
 		huJ1.setUserData("hu");
+		huJ1.setGraphic(new ImageView(iconHU));
 		iahuJ1 = new ToggleGroup(); 
 		iaJ1.setToggleGroup(iahuJ1); 
 		huJ1.setToggleGroup(iahuJ1);
@@ -90,10 +97,12 @@ public class OptionView extends View{
 		ImageView imagevJ2 = new ImageView(imageJ2);
 		imagevJ2.setFitHeight(28);
 		imagevJ2.setPreserveRatio(true);
-		iaJ2 = new RadioButton("IA");
+		iaJ2 = new RadioButton();
 		iaJ2.setUserData("ia");
-		huJ2 = new RadioButton("HU");
+		iaJ2.setGraphic(new ImageView(iconIA));
+		huJ2 = new RadioButton();
 		huJ2.setUserData("hu");
+		huJ2.setGraphic(new ImageView(iconHU));
 		iahuJ2 = new ToggleGroup();
 		iaJ2.setToggleGroup(iahuJ2); 
 		huJ2.setToggleGroup(iahuJ2);
