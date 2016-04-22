@@ -276,7 +276,7 @@ créer un bouton d'information permettant d'avoir accès:
 - au projet (créateurs, contexte...)
 
 #### UI
-réorganiser les boutons (réglages, son, informations dans cette ordre en haut à droite et jouerPourHumain à l'endroit du gif de réflexion)
+réorganiser les boutons (réglages, son, informations dans cette ordre en haut à droite et jouerPourHumain à l'endroit du gif de réflexion).    
 créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'il font.    
 créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé
 
