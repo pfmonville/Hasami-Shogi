@@ -166,12 +166,19 @@ public class GameController {
 			this.nextJoueur();
 			//On met à jour l'image du joueur actuel
 			Platform.runLater(()-> App.pv.switchImageJoueur(joueurActuel));
-			//si le prochain joueur est une IA 
+			//si le prochain joueur est une IA on le fait jouer
 			if(!this.isActualJoueurHuman(joueurActuel)){
 				Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 				thread.start();
 			}
 			//sinon on attend le clique du joueur humain
+			else{
+				//si le joueur est bloqué on passe son tour
+				if( ! ((HumanController)(controllers.get(joueurActuel))).canPlayAMove()){
+					//TODO: ajouter un petit texte peut-être pour dire qu'il a passé son tour faute de coup jouable
+					finTour();
+				}
+			}
 		}
 	}
 	
