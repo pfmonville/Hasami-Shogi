@@ -256,6 +256,30 @@ L'équipe est très satisfaite des résultats obtenus. l'intelligence artificiel
 
 #### Fonctionnalités
 
+ajouter la possibilité d'annuler un/plusieurs coup(s)
+
+##### Réglages
+Ajouter un bouton de réglage qui ouvre une popup et propose de changer 
+- la prise en coins
+- la prise en diagonale
+- combien de pions avant de perdre
+- si la règle de victoire par l'écart de poins est prise en compte
+- combien de pions pour l'écart de poins avant victoire
+- changer de thème 
+
+créer un fichier conservant ces modifications dans le .jar pour que l'utilisateur n'ait pas à tout rentrer à chaque lancement.
+
+##### Informations
+créer un bouton d'information permettant d'avoir accès:
+- aux règles 
+- à la version actuelle du projet 
+- au projet (créateurs, contexte...)
+
+#### UI
+réorganiser les boutons (réglages, son, informations dans cette ordre en haut à droite et jouerPourHumain à l'endroit du gif de réflexion)
+créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'il font
+créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé
+
 #### Intelligence artificielle
 
 ##### algorithme de recherche
@@ -263,6 +287,7 @@ Pour les fonctions de recherches, d'autres algorithmes peuvent être envisagés:
 - SSS*
 - scout
 - MTD-F
+
 ##### Fonction d'évaluation
 Une amélioration possible de la pondération est l'utilisation de la programmation génétique afin d'optimiser les paramètres de l'équation.
 Une population *(environ 100 éléments)* de pondération aléatoire *(représentée par des vecteurs)* dont les éléments sont liés chacun à une intelligence artificielle. On créé une vingtaine d'individus servant de référence et contre qui toutes les autres intelligences artificielles vont s'affronter.
