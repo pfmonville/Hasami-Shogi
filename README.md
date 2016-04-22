@@ -254,11 +254,16 @@ L'équipe est très satisfaite des résultats obtenus. l'intelligence artificiel
 
 ### Améliorations possibles
 
+#### Fonctionnalités
+
+#### Intelligence artificielle
+
+##### algorithme de recherche
 Pour les fonctions de recherches, d'autres algorithmes peuvent être envisagés:
 - SSS*
 - scout
 - MTD-F
-
+##### Fonction d'évaluation
 Une amélioration possible de la pondération est l'utilisation de la programmation génétique afin d'optimiser les paramètres de l'équation.
 Une population *(environ 100 éléments)* de pondération aléatoire *(représentée par des vecteurs)* dont les éléments sont liés chacun à une intelligence artificielle. On créé une vingtaine d'individus servant de référence et contre qui toutes les autres intelligences artificielles vont s'affronter.
 On peut ainsi obtenir le ratio victoire/défaite de chaque individu,
