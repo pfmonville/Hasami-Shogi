@@ -26,13 +26,13 @@
   <versionInfo>
     <fileVersion>1.1.0.0</fileVersion>
     <txtFileVersion>1.1</txtFileVersion>
-    <fileDescription>A hasami Shogi game</fileDescription>
+    <fileDescription>A hasami shogi game</fileDescription>
     <copyright>Maud Béguey &amp; Pierre-François Monville</copyright>
     <productVersion>1.1.0.0</productVersion>
     <txtProductVersion>1.1</txtProductVersion>
     <productName>Hasami Shogi</productName>
     <companyName></companyName>
-    <internalName>Hasami-Shogi</internalName>
-    <originalFilename>Hasami Shogi.exe</originalFilename>
+    <internalName>hasami-shogi</internalName>
+    <originalFilename>HS.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>
