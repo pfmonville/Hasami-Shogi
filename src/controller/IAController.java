@@ -116,10 +116,9 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			}else{
 				couleurJoueur = "Blanc";
 			}
-			Platform.runLater(() -> Notifications.create().title("coucou").text("Le joueur "+ couleurJoueur +" a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
-			App.gameController.finTour();
+			Platform.runLater(() -> Notifications.create().title("coucou").text("Le joueur "+ couleurJoueur +" a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());	
 		}
-			
+		App.gameController.finTour();	
 	}
 	
 	/**
