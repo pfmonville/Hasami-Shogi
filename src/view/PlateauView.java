@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -117,8 +118,15 @@ public class PlateauView extends View{
 
 
 
+		
+		//***************************************************************//
+		// DEFINITIONS DES TOOLTIPS
+		final Tooltip tooltipStat = new Tooltip("pions restants / pions initiaux");
+		final Tooltip tooltipFaireJouerIA = new Tooltip("Faire jouer l'IA pour vous");
+		final Tooltip tooltipCouperSon = new Tooltip("Couper/Remettre le son");
 
-
+	
+		//***************************************************************//
 
 
 
@@ -141,6 +149,7 @@ public class PlateauView extends View{
 		pionsPerdusJ1.setTranslateX(joueur1.getTranslateX() + decalageX);
 		pionsPerdusJ1.setTranslateY(joueur1.getTranslateY() + decalageY);
 		pionsPerdusJ1.setId("stat");
+		Tooltip.install(pionsPerdusJ1, tooltipStat);
 
 		//Joueur 2
 		ImageView joueur2 = new ImageView(new Image(App.theme.getImageJoueurBlanc()));
@@ -154,6 +163,7 @@ public class PlateauView extends View{
 		pionsPerdusJ2.setTranslateX(joueur2.getTranslateX() + decalageX);
 		pionsPerdusJ2.setTranslateY(joueur2.getTranslateY() + decalageY);
 		pionsPerdusJ2.setId("stat");
+		Tooltip.install(pionsPerdusJ2, tooltipStat);
 
 		//***************************************************************//
 
@@ -264,6 +274,8 @@ public class PlateauView extends View{
 		IVIA.setFitHeight(20);
 		IVIA.setFitWidth(20);
 		Button faireJouerIA = new Button();
+		
+		faireJouerIA.setTooltip(tooltipFaireJouerIA);
 		faireJouerIA.setGraphic(IVIA);
 		faireJouerIA.setTranslateX(520);
 		faireJouerIA.setTranslateY(11);
@@ -300,6 +312,8 @@ public class PlateauView extends View{
 		
 		Image sonCoupe = new Image("image/sonNonCoupe.png");
 		Button couperSon = new Button();
+		
+		couperSon.setTooltip(tooltipCouperSon);
 		couperSon.setId("boutonInvisible");
 		couperSon.setGraphic(new ImageView(sonCoupe));
 		couperSon.setTranslateX(560);

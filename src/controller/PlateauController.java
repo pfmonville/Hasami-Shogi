@@ -270,55 +270,66 @@ public class PlateauController {
 			}
 		}
 		
+		if(App.regles.isCapturerDiagonale()){
+			//TODO: faire les 4 directions 
+			//diagonale haut-gauche
+			//diagonale haut-droite
+			//diagonale bas-gauche
+			//diagonale bas-droite
+		}
+		
 		
 		//vérifier les pions dans les coins extremes
 		
-		//si le pion en haut à gauche appartient à l'adversaire
-		if(cases[0][0].getPion() != null && cases[0][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
-			Pion pion1 = cases[0][1].getPion();
-			Pion pion2 = cases[1][0].getPion();
-			//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
-			if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
-				listeFinale.add(cases[0][0].getPion());
+		
+		if(App.regles.isCapturerCoins()){
+			//TODO: 
+			
+			
+		}else{
+			//si le pion en haut à gauche appartient à l'adversaire
+			if(cases[0][0].getPion() != null && cases[0][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
+				Pion pion1 = cases[0][1].getPion();
+				Pion pion2 = cases[1][0].getPion();
+				//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
+				if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
+					listeFinale.add(cases[0][0].getPion());
+				}
+			}
+					
+			//si le pion en bas à gauche appartient à l'adversaire
+			if(cases[0][indiceMax].getPion() != null && cases[0][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
+				Pion pion1 = cases[0][indiceMax - 1].getPion();
+				Pion pion2 = cases[1][indiceMax].getPion();
+				//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
+				if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
+					listeFinale.add(cases[0][indiceMax].getPion());
+				}
+			}
+			
+			
+			//si le pion en haut à droite appartient à l'adversaire
+			if(cases[indiceMax][0].getPion() != null && cases[indiceMax][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
+				Pion pion1 = cases[indiceMax - 1][0].getPion();
+				Pion pion2 = cases[indiceMax][1].getPion();
+				//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
+				if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
+					listeFinale.add(cases[indiceMax][0].getPion());
+				}
+			}
+			
+			
+			//si le pion en bas à droite appartient à l'adversaire
+			if(cases[indiceMax][indiceMax].getPion() != null && cases[indiceMax][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
+				Pion pion1 = cases[indiceMax - 1][indiceMax].getPion();
+				Pion pion2 = cases[indiceMax][indiceMax - 1].getPion();
+				//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
+				if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
+					listeFinale.add(cases[indiceMax][indiceMax].getPion());
+				}
 			}
 		}
-				
-		//si le pion en bas à gauche appartient à l'adversaire
-		if(cases[0][indiceMax].getPion() != null && cases[0][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
-			Pion pion1 = cases[0][indiceMax - 1].getPion();
-			Pion pion2 = cases[1][indiceMax].getPion();
-			//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
-			if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
-				listeFinale.add(cases[0][indiceMax].getPion());
-			}
-		}
-		
-		
-		//si le pion en haut à droite appartient à l'adversaire
-		if(cases[indiceMax][0].getPion() != null && cases[indiceMax][0].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
-			Pion pion1 = cases[indiceMax - 1][0].getPion();
-			Pion pion2 = cases[indiceMax][1].getPion();
-			//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
-			if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
-				listeFinale.add(cases[indiceMax][0].getPion());
-			}
-		}
-		
-		
-		//si le pion en bas à droite appartient à l'adversaire
-		if(cases[indiceMax][indiceMax].getPion() != null && cases[indiceMax][indiceMax].getPion().getNumeroJoueur() != pion.getNumeroJoueur()){
-			Pion pion1 = cases[indiceMax - 1][indiceMax].getPion();
-			Pion pion2 = cases[indiceMax][indiceMax - 1].getPion();
-			//si il existe deux pions du joueurs qui bloquent le pion adverse qui est dans le coin alors on capture ce pion
-			if(pion1 != null && pion2 != null && (pion1.getNumeroJoueur() == pion2.getNumeroJoueur()) && pion1.getNumeroJoueur() == pion.getNumeroJoueur()){
-				listeFinale.add(cases[indiceMax][indiceMax].getPion());
-			}
-		}
-		
-		
-		
-		//vérification spéciale en cas de capture en coins multiple autorisée
-		//TODO
+
 		
 		return listeFinale;	
 	}

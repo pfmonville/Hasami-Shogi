@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -55,6 +56,13 @@ public class OptionView extends View{
 
 		//initialisation des élements à afficher
 		
+		//intstancie les tooltips
+		final Tooltip tooltipJoueurNoir = new Tooltip("Joueur Noir");
+		final Tooltip tooltipJoueurBlanc = new Tooltip("Joueur Blanc");
+		final Tooltip tooltipNiveau = new Tooltip("Niveau de difficulté");
+		final Tooltip tooltipIA = new Tooltip("Intelligence Artificielle");
+		final Tooltip tooltipHU = new Tooltip("Joueur Humain");
+		
 		//instancie les icones humain, ia, niveau
 		Image iconHU = new Image("image/humanIcon.png");
 		Image iconIA = new Image("image/IAIcon.png");
@@ -68,14 +76,17 @@ public class OptionView extends View{
 		Image imageJ1 = new Image("image/gogui-black-32x32.png");
 		
 		ImageView imagevJ1 = new ImageView(imageJ1);
+		Tooltip.install(imagevJ1, tooltipJoueurNoir);
 		imagevJ1.setFitHeight(28);
 		imagevJ1.setPreserveRatio(true);
 		iaJ1 = new RadioButton();
 		iaJ1.setUserData("ia");
 		iaJ1.setGraphic(new ImageView(iconIA));
+		iaJ1.setTooltip(tooltipIA);
 		huJ1 = new RadioButton();
 		huJ1.setUserData("hu");
 		huJ1.setGraphic(new ImageView(iconHU));
+		huJ1.setTooltip(tooltipHU);
 		iahuJ1 = new ToggleGroup(); 
 		iaJ1.setToggleGroup(iahuJ1); 
 		huJ1.setToggleGroup(iahuJ1);
@@ -98,14 +109,17 @@ public class OptionView extends View{
 		
 		Image imageJ2 = new Image("image/gogui-white-32x32.png");
 		ImageView imagevJ2 = new ImageView(imageJ2);
+		Tooltip.install(imagevJ2, tooltipJoueurBlanc);
 		imagevJ2.setFitHeight(28);
 		imagevJ2.setPreserveRatio(true);
 		iaJ2 = new RadioButton();
 		iaJ2.setUserData("ia");
 		iaJ2.setGraphic(new ImageView(iconIA));
+		iaJ2.setTooltip(tooltipIA);
 		huJ2 = new RadioButton();
 		huJ2.setUserData("hu");
 		huJ2.setGraphic(new ImageView(iconHU));
+		huJ2.setTooltip(tooltipHU);
 		iahuJ2 = new ToggleGroup();
 		iaJ2.setToggleGroup(iahuJ2); 
 		huJ2.setToggleGroup(iahuJ2);
@@ -126,6 +140,7 @@ public class OptionView extends View{
 		labelnvj1 = new Label("");
 		labelnvj1.setGraphic(new ImageView(niveau));
 		labelnvj1.setId("niveau");
+		labelnvj1.setTooltip(tooltipNiveau);
 		nv1j1 = new RadioButton("1");
 		nv1j1.setUserData("1");
 		nv2j1 = new RadioButton("2");
@@ -173,6 +188,7 @@ public class OptionView extends View{
 		labelnvj2 = new Label();
 		labelnvj2.setGraphic(new ImageView(niveau));
 		labelnvj2.setId("niveau");
+		labelnvj2.setTooltip(tooltipNiveau);
 		nv1j2 = new RadioButton("1");
 		nv1j2.setUserData("1");
 		nv2j2 = new RadioButton("2");
