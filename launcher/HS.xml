@@ -23,4 +23,16 @@
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
   </jre>
+  <versionInfo>
+    <fileVersion>1.1.0.0</fileVersion>
+    <txtFileVersion>1.1</txtFileVersion>
+    <fileDescription>A hasami Shogi game</fileDescription>
+    <copyright>Maud Béguey &amp; Pierre-François Monville</copyright>
+    <productVersion>1.1.0.0</productVersion>
+    <txtProductVersion>1.1</txtProductVersion>
+    <productName>Hasami Shogi</productName>
+    <companyName></companyName>
+    <internalName>Hasami-Shogi</internalName>
+    <originalFilename>Hasami Shogi.exe</originalFilename>
+  </versionInfo>
 </launch4jConfig>
