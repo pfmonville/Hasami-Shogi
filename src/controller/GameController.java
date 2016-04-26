@@ -2,10 +2,14 @@ package controller;
 
 import java.util.ArrayList;
 
+import org.controlsfx.control.Notifications;
+
 import javafx.application.Platform;
+import javafx.util.Duration;
 import mainPackage.App;
 import model.Case;
 import model.Joueur;
+
 
 public class GameController {
 	private ArrayList<Joueur> joueurs = new ArrayList<>();
@@ -14,6 +18,7 @@ public class GameController {
 	private ArrayList<PlayerController> controllers = new ArrayList<>();
 	private PlateauController plateauController; 
 	private static boolean allIA = false;
+
 	
 	public GameController(){
 		
@@ -171,9 +176,17 @@ public class GameController {
 				Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 				thread.start();
 			}else if (! ((HumanController) controllers.get(joueurActuel)).canPlayAMove()){
+				String couleurJoueur;
+				if(((HumanController) controllers.get(joueurActuel)).getJoueur().getNumeroJoueur() == App.regles.getNumeroJoueurNoir()){
+					couleurJoueur = "Noir";
+				}else{
+					couleurJoueur = "Blanc";
+				}
+				Platform.runLater(() -> Notifications.create().title("coucou").text("Le joueur " + couleurJoueur + " a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
 				finTour();
 			}
 			//sinon on attend le clique du joueur humain
+			
 		}
 	}
 	

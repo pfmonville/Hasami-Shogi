@@ -3,11 +3,14 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.controlsfx.control.Notifications;
+
 import controller.iaUtils.AlphaBeta;
 import controller.iaUtils.EvaluatePosition;
 import controller.iaUtils.MinMax;
 import controller.iaUtils.NegaMax;
 import javafx.application.Platform;
+import javafx.util.Duration;
 import mainPackage.App;
 import model.Case;
 import model.Joueur;
@@ -106,8 +109,17 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionToMove, PlateauController.getCases());
 			App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
 			
+		}else{
+			String couleurJoueur;
+			if(IA.getNumeroJoueur() == App.regles.getNumeroJoueurNoir()){
+				couleurJoueur = "Noir";
+			}else{
+				couleurJoueur = "Blanc";
+			}
+			Platform.runLater(() -> Notifications.create().title("coucou").text("Le joueur "+ couleurJoueur +" a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
+			App.gameController.finTour();
 		}
-		App.gameController.finTour();	
+			
 	}
 	
 	/**

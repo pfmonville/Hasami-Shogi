@@ -18,6 +18,7 @@ import view.StartView;
 
 public class App extends Application {
 	public static Pane mainLayout;
+	public static Stage mainStage;
 	
 	//Instancie les vues
 	public static OptionView ov;
@@ -42,7 +43,7 @@ public class App extends Application {
 	
 	@Override
 	public void start(Stage stage) throws IOException{
-		
+		mainStage = stage;
 		ov = new OptionView(600, 600);
 		pv = new PlateauView(600, 600);
 		sv = new StartView(600, 600);
