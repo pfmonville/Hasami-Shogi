@@ -182,7 +182,7 @@ public class GameController {
 				}else{
 					couleurJoueur = "Blanc";
 				}
-				Platform.runLater(() -> Notifications.create().title("coucou").text("Le joueur " + couleurJoueur + " a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
+				Platform.runLater(() -> Notifications.create().title("Informations").text("Le joueur " + couleurJoueur + " a du passer").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
 				finTour();
 			}
 			//sinon on attend le clique du joueur humain
