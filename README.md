@@ -16,6 +16,7 @@ Vous pouvez aussi importer le projet sous eclipse et le lancer à partir de celu
 Le hasami Shogi est une des variations les plus populaires du Shogi au Japon.
 Le mot *"hasami"* signifie *"pince"* en rapport avec la technique de prise en tenaille utilisée dans ce jeu.
 Le jeu se déroule sur un plateau de cases 9x9.
+Chaque joueur possède 9 pions placés sur la première ligne en face de lui.
 
 ### But du jeu:
 Chaque joueur doit essayer de capturer les pièces adverses en déplaçant les siennes.
