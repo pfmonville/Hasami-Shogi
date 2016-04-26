@@ -56,8 +56,11 @@ public class AlphaBeta {
 				if(!deplacementPossibles.isEmpty()){
 					canMove = true;
 				}
-				IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
-				listeTousDeplacement.add(deplacements);
+				for(Case casePlateau:deplacementPossibles){
+					IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
+					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+					listeTousDeplacement.add(deplacement);
+				}
 			}
 		}else{
 			for(Pion pion:pionsAdversaire){
@@ -66,8 +69,11 @@ public class AlphaBeta {
 				if(!deplacementPossibles.isEmpty()){
 					canMove = true;
 				}
-				IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
-				listeTousDeplacement.add(deplacements);
+				for(Case casePlateau:deplacementPossibles){
+					IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
+					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+					listeTousDeplacement.add(deplacement);
+				}
 			}
 		}
 		
@@ -94,78 +100,73 @@ public class AlphaBeta {
 			for(IAController.Deplacement deplacement:listeTousDeplacement){
 				Case caseOrigine = deplacement.getPion().getCasePlateau();
 				double scoreActuel = 0;
-				for(Case casePlateau: deplacement.getCases()){
-					if(profondeur == 0 && caseAlreadyPlayed == casePlateau && pionAlreadyPlayed == deplacement.getPion()){
-						continue;
-					}
-					
-					ArrayList<Pion> pionsASupprimer = null;
-					
-					
-					//si c'est au joueur qui a appellé alphabeta
-					if(numeroJoueurActuel == AlphaBeta.iaAppellante.getNumeroJoueur()){
-						
-						//on joue le coup
-						deplacerPion(deplacement.getPion(), casePlateau);
-						//vérification des pions supprimés
-						pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
-						//suppression des pions
-						supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
-						
-						//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à explorer l'arbre
-						if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-							scoreActuel = Double.MAX_VALUE;
-						}else{
-							scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroAdversaire());	
-						}
-						
-						maxValue = Math.max(maxValue, scoreActuel);
-						
-						//set alpha
-						alpha = Math.max(scoreActuel, alpha);
-						//si on à profondeur 0, on sauve le coup potentiel dans une liste des coups à jouer par l'ia
-						if(profondeur == 0){
-							coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), casePlateau, scoreActuel));
-						}
-						
-					}
-					//si c'est à l'adversaire
-					else{
-						//on joue le coup
-						deplacerPion(deplacement.getPion(), casePlateau);
-						//vérification des pions supprimés
-						pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
-						//suppression des pions
-						supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
-						
-						//si cela entraine une victoire le score actuel devient MINVALUE et on ne continue pas à explorer l'arbre
-						if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-							scoreActuel = EvaluatePosition.maxValuePossible();
-						}else{
-							scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroJoueur());
-						}
-						
-						minValue = Math.min(minValue, scoreActuel);
-						
-						//set beta
-						beta = Math.min(scoreActuel, beta);
-						
-						
-						
-					}
-					
-					//annuler le coup
-					remettrePions(pionsASupprimer);
-					deplacerPion(deplacement.getPion(), caseOrigine);
-					
-					//si une coupure à eu lieu on n'évalue pas le reste de l'arbre
-					if(scoreActuel == EvaluatePosition.maxValuePossible() || scoreActuel == -EvaluatePosition.maxValuePossible()){
-//						break;
-					}
+				if(profondeur == 0 && caseAlreadyPlayed == deplacement.getCase() && pionAlreadyPlayed == deplacement.getPion()){
+					continue;
 				}
+				
+				ArrayList<Pion> pionsASupprimer = null;
+				
+				
+				//si c'est au joueur qui a appellé alphabeta
+				if(numeroJoueurActuel == AlphaBeta.iaAppellante.getNumeroJoueur()){
+					
+					//on joue le coup
+					deplacerPion(deplacement.getPion(), deplacement.getCase());
+					//vérification des pions supprimés
+					pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
+					//suppression des pions
+					supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
+					
+					//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à explorer l'arbre
+					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
+						scoreActuel = Double.MAX_VALUE;
+					}else{
+						scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroAdversaire());	
+					}
+					
+					maxValue = Math.max(maxValue, scoreActuel);
+					
+					//set alpha
+					alpha = Math.max(scoreActuel, alpha);
+					//si on à profondeur 0, on sauve le coup potentiel dans une liste des coups à jouer par l'ia
+					if(profondeur == 0){
+						coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), deplacement.getCase(), scoreActuel));
+					}
+					
+				}
+				//si c'est à l'adversaire
+				else{
+					//on joue le coup
+					deplacerPion(deplacement.getPion(), deplacement.getCase());
+					//vérification des pions supprimés
+					pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
+					//suppression des pions
+					supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
+					
+					//si cela entraine une victoire le score actuel devient MINVALUE et on ne continue pas à explorer l'arbre
+					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
+						scoreActuel = EvaluatePosition.maxValuePossible();
+					}else{
+						scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroJoueur());
+					}
+					
+					minValue = Math.min(minValue, scoreActuel);
+					
+					//set beta
+					beta = Math.min(scoreActuel, beta);
+					
+					
+					
+				}
+				
+				//annuler le coup
+				remettrePions(pionsASupprimer);
+				deplacerPion(deplacement.getPion(), caseOrigine);
+				
+
 				//si une coupure à eu lieu on n'évalue pas le reste de l'arbre
 				if(scoreActuel == EvaluatePosition.maxValuePossible() || scoreActuel == -EvaluatePosition.maxValuePossible()){
-//					break;
+					break;
 				}
 			}
 		}

@@ -21,9 +21,7 @@ public class NegaMax {
 	
 	private static EvaluatePosition.Setup setup;
 	
-	
-	public static int compteur = 0;
-	public static boolean test = false;
+
 
 	/**
 	 * 
@@ -44,8 +42,6 @@ public class NegaMax {
 	 */
 	public static double negaMax(double alpha, double beta, int profondeur, int numeroJoueurActuel){
 
-		compteur++;
-		
 		if(profondeur == maxProfondeur){
 			if(numeroJoueurActuel == iaAppellante.getNumeroJoueur()){
 				return EvaluatePosition.evaluate(pionsIA, pionsAdversaire, PlateauController.getCases(), setup);
@@ -55,116 +51,6 @@ public class NegaMax {
 		} else{
 			double bestValue = -EvaluatePosition.maxValuePossible();
 
-
-
-//			//**************************************************************
-//			//OBTENTION DE TOUS LES DEPLACEMENTS
-//
-//			ArrayList<IAController.Deplacement> listeTousDeplacement = new ArrayList<>();
-//			boolean canMove = false;
-//			//pour chaque pion jouable
-//			if(numeroJoueurActuel == pionsIA.get(0).getNumeroJoueur()){
-//				for(Pion pion:pionsIA){
-//					//estimation de tous les coups possibles d'un pion
-//					ArrayList<Case> deplacementPossibles = PlateauController.getPossibleMoves(pion);
-//					if(!deplacementPossibles.isEmpty()){
-//						canMove = true;
-//					}
-//					IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
-//					listeTousDeplacement.add(deplacements);
-//				}
-//			}else{
-//				for(Pion pion:pionsAdversaire){
-//					//estimation de tous les coups possibles d'un pion
-//					ArrayList<Case> deplacementPossibles = PlateauController.getPossibleMoves(pion);
-//					if(!deplacementPossibles.isEmpty()){
-//						canMove = true;
-//					}
-//					IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
-//					listeTousDeplacement.add(deplacements);
-//				}
-//			}
-//
-//			//**************************************************************
-//
-//
-//			if(profondeur == 0){
-//				coupsJouables.clear();
-//			}
-//
-//
-//			//si le joueur ne peut pas bouger
-//			if(!canMove){
-//				bestValue = -negaMax(-beta, -alpha, profondeur + 1, getAutreJoueur(numeroJoueurActuel));
-//			}
-//			else{
-//				for(IAController.Deplacement deplacement:listeTousDeplacement){
-//					Case caseOrigine = deplacement.getPion().getCasePlateau();
-//					double scoreActuel = 0;
-//					for(Case casePlateau: deplacement.getCases()){
-//						if(profondeur == 0 && caseAlreadyPlayed == casePlateau && pionAlreadyPlayed == deplacement.getPion()){
-//							continue;
-//						}
-//						//**************************************************************
-//						//JOUER LE COUP
-//
-//						ArrayList<Pion> pionsASupprimer = null;
-//						//on joue le coup
-//						deplacerPion(deplacement.getPion(), casePlateau);
-//						//vérification des pions supprimés
-//						pionsASupprimer = PlateauController.verifierCapture(deplacement.getPion(), PlateauController.getCases());
-//						//suppression des pions
-//						supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
-//
-//						//**************************************************************
-//
-//
-//						//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à explorer l'arbre
-//						if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-//							scoreActuel = Double.MAX_VALUE;
-//						}else{
-//							scoreActuel = -negaMax(-beta, -alpha, profondeur + 1, getAutreJoueur(numeroJoueurActuel));	
-//						}
-//
-//
-//
-//						//**************************************************************
-//						//ANNULER LE COUP
-//
-//						remettrePions(pionsASupprimer);
-//						deplacerPion(deplacement.getPion(), caseOrigine);
-//
-//						//**************************************************************
-//
-//
-//						//**************************************************************
-//						//RECUPERATION DES COUPS A PROFONDEUR 0
-//
-//						//si on à profondeur 0, on sauve le coup potentiel dans une liste des coups à jouer par l'ia
-//						if(profondeur == 0){
-//							coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), casePlateau, scoreActuel));
-//						}
-//
-//						//**************************************************************
-//
-//
-//
-//						if(scoreActuel > bestValue){
-//							bestValue = scoreActuel;
-//							if(bestValue > alpha){
-//								alpha = bestValue;
-//								if(alpha >= beta){
-//									return bestValue;
-//								}
-//							}
-//						}	
-//						
-//						
-//					}//Fin du for pour tous les deplacements
-//				}//Fin du for pour tous les pions	
-//			}//Fin du else can move	
-//			return bestValue;
-//		}//Fin du else profondeur max pas atteinte
 			
 			//**************************************************************
 			//OBTENTION DE TOUS LES DEPLACEMENTS
@@ -184,12 +70,6 @@ public class NegaMax {
 						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
 						listeTousDeplacement.add(deplacement);
 					}
-					
-					
-					//TODO: a supprimer 
-					//IAController.Deplacements deplacements = new IAController.Deplacements(pion, deplacementPossibles);
-					
-					//listeTousDeplacement.add(deplacements);
 				}
 			}else{
 				for(Pion pion:pionsAdversaire){
@@ -203,10 +83,6 @@ public class NegaMax {
 						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
 						listeTousDeplacement.add(deplacement);
 					}
-					
-					//TODO: a supprimer
-//					IAController.Deplacements deplacements = new IAController.Deplacements(pion, deplacementPossibles);
-//					listeTousDeplacement.add(deplacements);
 				}
 			}
 
@@ -218,12 +94,8 @@ public class NegaMax {
 			}
 
 
-			//on trie la liste des déplacements afin qu'elle soit dans l'ordre des coups les plus intéressants en premier
-			if(test){
-				Collections.sort(listeTousDeplacement);
-				Collections.reverse(listeTousDeplacement);
-			}
-			
+			Collections.sort(listeTousDeplacement);
+			Collections.reverse(listeTousDeplacement);
 			
 			//si le joueur ne peut pas bouger
 			if(!canMove){
