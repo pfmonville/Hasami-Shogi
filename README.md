@@ -149,7 +149,8 @@ Pour cela nous utilisons un algorithme de parcours d'arbre et une fonction d'év
 
 ### Algorithmes de recherches
 
-Nous avons utilisé différents algorithmes de recherche afin de trouver la meilleure suite de coups à jouer.
+Nous avons utilisé différents algorithmes de recherche afin de trouver la meilleure suite de coups à jouer. De plus, une heuristique est utilisée à chaque noeud afin de trier les branches et accélérer les coupes pour alpha-beta.    
+L'heuristique est simplement le nombre de pions du joueur moins ceux de son adversaire si le coup est joué, ce qui permet de considérer les "killer-move" en premier.
 
 #### Minimax
     
