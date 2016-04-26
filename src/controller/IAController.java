@@ -96,7 +96,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			//negamax profondeur 5 avec fonction d'évaluation complète
 			case 6:
 				NegaMax.test = true;
-				sci = NegaMax.launchNegaMax(pionsIA, pionsAdversaire, checkBoost(5), getCasePreviouslyPlayed(),getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
+				sci = NegaMax.launchNegaMax(pionsIA, pionsAdversaire, checkBoost(6), getCasePreviouslyPlayed(),getPionPreviouslyPlayed(), this.IA, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 				pionToMove = sci.getPion();
 				caseWhereToMove = sci.getCase();
 				NegaMax.test = false;
