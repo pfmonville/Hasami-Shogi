@@ -44,7 +44,7 @@ public class AlphaBeta {
 		}
 		
 		//on obtient la liste de tous les déplacements
-		ArrayList<IAController.Deplacements> listeTousDeplacement = new ArrayList<>();
+		ArrayList<IAController.Deplacement> listeTousDeplacement = new ArrayList<>();
 		
 		
 		boolean canMove = false;
@@ -56,7 +56,7 @@ public class AlphaBeta {
 				if(!deplacementPossibles.isEmpty()){
 					canMove = true;
 				}
-				IAController.Deplacements deplacements = new IAController.Deplacements(pion, deplacementPossibles);
+				IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
 				listeTousDeplacement.add(deplacements);
 			}
 		}else{
@@ -66,7 +66,7 @@ public class AlphaBeta {
 				if(!deplacementPossibles.isEmpty()){
 					canMove = true;
 				}
-				IAController.Deplacements deplacements = new IAController.Deplacements(pion, deplacementPossibles);
+				IAController.Deplacement deplacements = new IAController.Deplacement(pion, deplacementPossibles);
 				listeTousDeplacement.add(deplacements);
 			}
 		}
@@ -91,7 +91,7 @@ public class AlphaBeta {
 		
 		//sinon pour chaque déplacement possible
 		else{
-			for(IAController.Deplacements deplacement:listeTousDeplacement){
+			for(IAController.Deplacement deplacement:listeTousDeplacement){
 				Case caseOrigine = deplacement.getPion().getCasePlateau();
 				double scoreActuel = 0;
 				for(Case casePlateau: deplacement.getCases()){

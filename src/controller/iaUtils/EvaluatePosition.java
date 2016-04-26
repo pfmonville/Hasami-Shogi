@@ -2,6 +2,7 @@ package controller.iaUtils;
 
 import java.util.ArrayList;
 
+import controller.PlateauController;
 import mainPackage.App;
 import model.Case;
 import model.Pion;
@@ -421,6 +422,34 @@ public class EvaluatePosition {
 		return false;
 	}
 
+	/**
+	 * heuristique permettant de donner un score approximatif à un noeud
+	 * @param pionsJoueur1 la liste des pions du joueur appellant
+	 * @param pionsJoueur2 la liste des pions de son adversaire
+	 * @param pionConsidere le pion qui va se déplacer
+	 * @param caseConsideree la case sur laquelle il va se déplacer
+	 * @param plateau le plateau de jeu
+	 * @return un double, le score estimé de la position ce qui permet de trier par la suite tous les déplacement
+	 */
+	public static double getEstimatedScore(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Pion pionConsidere, Case caseConsideree, Case[][] plateau){
+		//initialisation
+		Case caseOrigine = pionConsidere.getCasePlateau();
+		caseOrigine.setPion(null);
+		caseConsideree.setPion(pionConsidere);
+		ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionConsidere, plateau);
+		//NegaMax.supprimerPions(pionsASupprimer, pionsJoueur1, pionsJoueur2, PlateauController.getCases());
+		
+		double estimatedScore = pionsASupprimer.size();
+		//double estimatedScore = evaluate(pionsJoueur1, pionsJoueur2, plateau, new EvaluatePosition.Setup(true, 1, false, 1, false, 4.5, false));
+		
+		//remise état d'origine
+		//NegaMax.remettrePions(pionsASupprimer);
+		caseConsideree.setPion(null);
+		caseOrigine.setPion(pionConsidere);
+		return estimatedScore;
+	}
+	
+	
 	/**
 	 * renvoie le nombre de déplacement possible pour le pion
 	 * @param pion le pion qui veut se déplacer
