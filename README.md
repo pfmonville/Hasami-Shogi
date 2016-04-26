@@ -278,7 +278,7 @@ créer un bouton d'information permettant d'avoir accès:
 #### UI
 réorganiser les boutons (réglages, son, informations dans cette ordre en haut à droite et jouerPourHumain à l'endroit du gif de réflexion).    
 ~~créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'ils font.~~ (ajouté le 26/04/2016 dans la 1.2)    
-créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé.
+~~créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé.~~ (ajouté le 26/04/2016 dans la 1.2.1)
 
 #### Intelligence artificielle
 
