@@ -8,7 +8,9 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import mainPackage.App;
 import model.Case;
+import model.History;
 import model.Joueur;
+import model.Pion;
 
 
 public class GameController {
@@ -18,6 +20,8 @@ public class GameController {
 	private ArrayList<PlayerController> controllers = new ArrayList<>();
 	private PlateauController plateauController; 
 	private static boolean allIA = false;
+	private History history;
+	private int actualTurn;
 
 	
 	public GameController(){
@@ -114,7 +118,9 @@ public class GameController {
 	 */
 	public void validClick(Case casePlateau){
 		((HumanController)(controllers.get(joueurActuel))).setCasePlateau(casePlateau);
-		controllers.get(joueurActuel).playAMove();
+		Thread thread = new Thread((HumanController)(controllers.get(joueurActuel)));
+		thread.start();
+		//controllers.get(joueurActuel).playAMove();
 	}
 	
 	
@@ -161,13 +167,17 @@ public class GameController {
 	 * sinon il suffit d'attendre le clique de l'humain
 	 */
 	public void finTour(){
+		//si c'est un humain qui vient de jouer on conserve son état au cas où il décide d'annuler son coup
+		if(isActualJoueurHuman(joueurActuel)){
+			history.addTurn(plateauController.getPionsNoirs(), plateauController.getPionsBlancs(), joueurActuel);
+		}
 		//si la partie est finie, on désactive les clics et on affiche le gagnant
-		
 		if(testVictoire()){ 
 			Platform.runLater(()-> App.pv.setWinnerTextInTopBanner(this.getNumeroActualJoueur()));
 			App.pv.stopMouseListener();
 			App.pv.displayEndGameButtons();
 		}else{
+			this.actualTurn++;
 			this.nextJoueur();
 			//On met à jour l'image du joueur actuel
 			Platform.runLater(()-> App.pv.switchImageJoueur(joueurActuel));
@@ -192,10 +202,69 @@ public class GameController {
 	
 	
 	/**
+	 * remet l'état du jeu tel qu'il était un tour auparavant
+	 */
+	public void discardMove(){
+		//TODO:
+		//si c'est le tout premier tour de jeu, on ne peut revenir en arrière ou si c'est le deuxième tour mais que l'IA joue en premier
+		if(this.actualTurn == 1 || (this.actualTurn == 2 && ! this.isActualJoueurHuman(getNumeroAutreJoueur())) ){
+			Platform.runLater(() -> Notifications.create().title("Informations").text("Vous ne pouvez annuler ce coup").hideAfter(new Duration(2000)).hideCloseButton().owner(App.mainStage).show());
+			return;
+		}
+	
+		//suppression graphique des pions actuels
+		for(Pion pion: plateauController.getPionsNoirs()){
+			App.pv.suppressionPion(pion);
+		}
+		for(Pion pion: plateauController.getPionsBlancs()){
+			App.pv.suppressionPion(pion);
+		}
+		
+		//suppression de l'état actuel et remise dans l'état précédent
+		history.discardLastMove(PlateauController.getCases(), plateauController.getPionsNoirs(), plateauController.getPionsBlancs());
+		joueurs.get(App.regles.getNumeroJoueurNoir()).setNbPions(plateauController.getPionsNoirs().size());
+		joueurs.get(App.regles.getNumeroJoueurBlanc()).setNbPions(plateauController.getPionsBlancs().size());
+
+		if(! this.isActualJoueurHuman(joueurActuel) || ! this.isActualJoueurHuman(getNumeroAutreJoueur())){
+			this.actualTurn -= 2;
+		}else{
+			this.actualTurn--;
+		}
+		
+		//plus d'actualité
+		//PlateauController.setCases(history.getPlateauAtLastTurn());
+		//plateauController.setPionsNoirs(history.getPionsNoirsAtLastTurn());
+		//plateauController.setPionsBlancs(history.getPionsBlancsAtLastTurn());
+		
+		//réaffichage des pions sur le plateau
+		App.pv.displayNewBoardPosition(plateauController.getPionsNoirs(), plateauController.getPionsBlancs());
+		
+		//le joueur précédent reprend la main
+		GameController.joueurActuel = history.getJoueurNumberAtLastTurn();
+		
+		//On met à jour l'image du joueur actuel
+		Platform.runLater(()-> App.pv.switchImageJoueur(GameController.joueurActuel));
+		
+		//on remet la bannière correctement en cas de retour après fin du jeu
+		App.pv.fixBannerAfterDiscard();
+		
+		//on remet les boutons
+		App.pv.displayGameButtons();
+		
+		//on réactive la souris
+		App.pv.startMouseListener();
+		
+		//on attend l'input de l'humain (on ne revient jamais sur l'état d'une IA)
+	}
+	
+	
+	/**
 	 * Commence le premier tour de jeu.
 	 * typiquement si c'est une ia on appelle son controlleur sinon on attend le clique du joueur humain
 	 */
 	public void startGame(){
+		this.actualTurn = 1;
+		this.history = new History(PlateauController.getCases(), plateauController.getPionsNoirs(), plateauController.getPionsBlancs());
 		if(!this.isActualJoueurHuman(joueurActuel)){
 			Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 			thread.start();

@@ -2,18 +2,19 @@ package controller.iaUtils;
 
 import java.util.ArrayList;
 
-import controller.IAController;
 import controller.PlateauController;
 import model.Case;
+import model.Deplacement;
 import model.Joueur;
 import model.Pion;
+import model.Score;
 
 public class AlphaBeta {
 	
 	private static ArrayList<Pion> pionsIA = new ArrayList<>();
 	private static ArrayList<Pion> pionsAdversaire = new ArrayList<>();
 	private static int maxProfondeur = -1;
-	private static ArrayList<IAController.ScoreCoupsInitiaux> coupsJouables = new ArrayList<>();
+	private static ArrayList<Score> coupsJouables = new ArrayList<>();
 	private static Joueur iaAppellante;
 	private static Case caseAlreadyPlayed;
 	private static Pion pionAlreadyPlayed;
@@ -31,11 +32,11 @@ public class AlphaBeta {
 	 */
 	public static double alphaBetaMiniMax(double alpha, double beta, int profondeur, 
 			int numeroJoueurActuel){
-		if(beta < alpha){
+		if(beta <= alpha){
 			if(numeroJoueurActuel == iaAppellante.getNumeroJoueur()){
-				return Integer.MAX_VALUE;
+				return EvaluatePosition.maxValuePossible();
 			}else{
-				return -Integer.MAX_VALUE;
+				return -EvaluatePosition.maxValuePossible();
 			}
 		}
 		
@@ -44,7 +45,7 @@ public class AlphaBeta {
 		}
 		
 		//on obtient la liste de tous les déplacements
-		ArrayList<IAController.Deplacement> listeTousDeplacement = new ArrayList<>();
+		ArrayList<Deplacement> listeTousDeplacement = new ArrayList<>();
 		
 		
 		boolean canMove = false;
@@ -57,8 +58,8 @@ public class AlphaBeta {
 					canMove = true;
 				}
 				for(Case casePlateau:deplacementPossibles){
-					IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
-					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+					Deplacement deplacement = new Deplacement(pion, casePlateau);
+					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pion, casePlateau, PlateauController.getCases()));
 					listeTousDeplacement.add(deplacement);
 				}
 			}
@@ -70,8 +71,8 @@ public class AlphaBeta {
 					canMove = true;
 				}
 				for(Case casePlateau:deplacementPossibles){
-					IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
-					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+					Deplacement deplacement = new Deplacement(pion, casePlateau);
+					deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pion, casePlateau, PlateauController.getCases()));
 					listeTousDeplacement.add(deplacement);
 				}
 			}
@@ -97,7 +98,7 @@ public class AlphaBeta {
 		
 		//sinon pour chaque déplacement possible
 		else{
-			for(IAController.Deplacement deplacement:listeTousDeplacement){
+			for(Deplacement deplacement:listeTousDeplacement){
 				Case caseOrigine = deplacement.getPion().getCasePlateau();
 				double scoreActuel = 0;
 				if(profondeur == 0 && caseAlreadyPlayed == deplacement.getCase() && pionAlreadyPlayed == deplacement.getPion()){
@@ -118,11 +119,11 @@ public class AlphaBeta {
 					supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
 					
 					//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à explorer l'arbre
-					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-						scoreActuel = Double.MAX_VALUE;
-					}else{
+//					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
+//						scoreActuel = EvaluatePosition.maxValuePossible();
+//					}else{
 						scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroAdversaire());	
-					}
+//					}
 					
 					maxValue = Math.max(maxValue, scoreActuel);
 					
@@ -130,7 +131,7 @@ public class AlphaBeta {
 					alpha = Math.max(scoreActuel, alpha);
 					//si on à profondeur 0, on sauve le coup potentiel dans une liste des coups à jouer par l'ia
 					if(profondeur == 0){
-						coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), deplacement.getCase(), scoreActuel));
+						coupsJouables.add(new Score(deplacement.getPion(), deplacement.getCase(), scoreActuel));
 					}
 					
 				}
@@ -144,11 +145,11 @@ public class AlphaBeta {
 					supprimerPions(pionsASupprimer, pionsIA, pionsAdversaire, PlateauController.getCases());
 					
 					//si cela entraine une victoire le score actuel devient MINVALUE et on ne continue pas à explorer l'arbre
-					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-						scoreActuel = EvaluatePosition.maxValuePossible();
-					}else{
+//					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
+//						scoreActuel = -EvaluatePosition.maxValuePossible();
+//					}else{
 						scoreActuel = alphaBetaMiniMax(alpha, beta, profondeur + 1, AlphaBeta.iaAppellante.getNumeroJoueur());
-					}
+//					}
 					
 					minValue = Math.min(minValue, scoreActuel);
 					
@@ -247,9 +248,9 @@ public class AlphaBeta {
 	 * 
 	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
 	 */
-	public static IAController.ScoreCoupsInitiaux getBestMove(){
-		IAController.ScoreCoupsInitiaux best = coupsJouables.get(0);
-		for(IAController.ScoreCoupsInitiaux sci: coupsJouables){
+	public static Score getBestMove(){
+		Score best = coupsJouables.get(0);
+		for(Score sci: coupsJouables){
 			if(setup.isRandomisedAfter()){
 				sci.randomizeScore();
 			}
@@ -271,7 +272,7 @@ public class AlphaBeta {
 	 * @param setup classe spécial permettant de régler la fonction d'évaluation(combien de coefs pris en compte, les valeurs des coefs, si on randomise après)
 	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
 	 */
-	public static IAController.ScoreCoupsInitiaux launchAlphaBeta(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, 
+	public static Score launchAlphaBeta(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, 
 			int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Joueur iaAppellante, EvaluatePosition.Setup setup){
 		AlphaBeta.pionsIA = pionsIA;
 		AlphaBeta.pionsAdversaire = pionsAdversaire;

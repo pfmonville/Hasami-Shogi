@@ -7,7 +7,7 @@ import model.Case;
 import model.Joueur;
 import model.Pion;
 
-public class HumanController implements PlayerController{
+public class HumanController implements PlayerController, Runnable{
 	private Case casePlateau;
 	private Pion actualPion;
 	private Joueur joueur;
@@ -70,12 +70,23 @@ public class HumanController implements PlayerController{
 				
 				//on déselectionne le pion
 				App.pv.makePionSelected(false, this.actualPion);
+				
+				//on enlève la surbrillance
+				App.gameController.getPlateauController().resetAllHighlight();
+				
 				//on vérifie si le déplacement résulte en une capture
 				ArrayList<Pion> pionASupprimer = App.gameController.getPlateauController().verifierCapture(this.actualPion, PlateauController.getCases());
-				App.gameController.getPlateauController().supprimerPion(pionASupprimer);
+				if(pionASupprimer.size() > 0){
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					App.gameController.getPlateauController().supprimerPion(pionASupprimer);
+				}
+				
 				//On enlève ce pion de la varible pion courant
 				this.actualPion = null;
-				App.gameController.getPlateauController().resetAllHighlight();
 				App.gameController.finTour();
 				
 			}else{//si le déplacement n'est pas valide, on remet à zéro toutes les cases et on déselectionne le pion
@@ -107,5 +118,10 @@ public class HumanController implements PlayerController{
 				App.gameController.getPlateauController().highlightPossibleMoves(this.actualPion);
 			}
 		}	
+	}
+
+	@Override
+	public void run() {
+		this.playAMove();
 	}	
 }

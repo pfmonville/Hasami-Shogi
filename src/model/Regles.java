@@ -12,7 +12,8 @@ public class Regles {
 	private int numeroJoueurNoir;
 	private int joueurBlanc;
 	
-	private ArrayList<String> sounds = new ArrayList<>();
+	private ArrayList<String> playSounds = new ArrayList<>();
+	private ArrayList<String> captureSounds = new ArrayList<>();
 
 	
 	public Regles(){
@@ -24,8 +25,10 @@ public class Regles {
 		this.nbDeCaseParLigne = 9;
 		this.numeroJoueurNoir = 0;
 		this.joueurBlanc = 1;
-		sounds.add("sound/wood-on-wood-1.aiff");
-		sounds.add("sound/wood-on-wood-2.aiff");
+		playSounds.add("sound/wood-on-wood-1.aiff");
+		playSounds.add("sound/wood-on-wood-2.aiff");
+		captureSounds.add("sound/droping-pawn-1.aiff");
+		captureSounds.add("sound/droping-pawn-2.aiff");
 	}
 	
 	public Regles(boolean capturerDiagonale, boolean capturerCoins, int nbPiecesAvantDefaite, boolean ecartAvantDefaite, int nbEcartAvantDefaite){
@@ -96,8 +99,12 @@ public class Regles {
 		return nbDeCaseParLigne * (nbDeCaseParLigne - 1);
 	}
 	
-	public String getASound(){
-		return sounds.get((int) Math.round(Math.random()));
+	public String getPlaySound(){
+		return playSounds.get((int) Math.round(Math.random()));
+	}
+	
+	public String getCaptureSound(){
+		return captureSounds.get((int) Math.round(Math.random()));
 	}
 	
 	

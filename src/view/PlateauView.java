@@ -124,7 +124,7 @@ public class PlateauView extends View{
 		final Tooltip tooltipStat = new Tooltip("pions restants / pions initiaux");
 		final Tooltip tooltipFaireJouerIA = new Tooltip("Faire jouer l'IA pour vous");
 		final Tooltip tooltipCouperSon = new Tooltip("Couper/Remettre le son");
-
+		final Tooltip tooltipAnnulerCoup = new Tooltip("Annuler le coup précédent");
 	
 		//***************************************************************//
 
@@ -240,7 +240,7 @@ public class PlateauView extends View{
 
 
 		//***************************************************************//
-		//CREATION DU BOUTON POUR RETOURNER AU MENU
+		//CREATION DU BOUTON POUR RETOURNER AU MENU EN FIN DE PARTIE
 		retourAuMenuFinPartie = new Button("MENU");
 		retourAuMenuFinPartie.setOnAction((event)->{
 			try {
@@ -252,7 +252,7 @@ public class PlateauView extends View{
 		});
 		retourAuMenuFinPartie.setVisible(false);
 
-		//CREATION DU BOUTON POUR RETOURNER AU MENU
+		//CREATION DU BOUTON POUR REJOUER EN FIN DE PARTIE
 		rejouerPartie = new Button("REJOUER");
 		rejouerPartie.setOnAction((event)->{
 			this.displayGameButtons();
@@ -328,6 +328,24 @@ public class PlateauView extends View{
 		
 		
 		
+		//***************************************************************//
+		//BOUTON POUR ANNULER UN COUP
+		
+		Image imageAnnulerCoup = new Image("image/annulerCoup.png");
+		Button annulerCoup = new Button();
+		
+		annulerCoup.setTooltip(tooltipAnnulerCoup);
+		annulerCoup.setId("boutonInvisible");
+		annulerCoup.setGraphic(new ImageView(imageAnnulerCoup));
+		annulerCoup.setTranslateX(480);
+		annulerCoup.setTranslateY(10);
+		annulerCoup.setOnAction((event)->{
+			App.gameController.discardMove();
+		});
+		
+		
+		//***************************************************************//
+		
 
 		//***************************************************************//
 		//AJOUT DES ELEMENTS A LA VIEW
@@ -343,6 +361,7 @@ public class PlateauView extends View{
 		super.getPanel().getChildren().add(rejouerPartie);
 		super.getPanel().getChildren().add(couperSon);
 		super.getPanel().getChildren().add(faireJouerIA);
+		//super.getPanel().getChildren().add(annulerCoup);
 
 		//***************************************************************//
 	}
@@ -403,6 +422,21 @@ public class PlateauView extends View{
 	public void deplacerPion(Pion pion, int i, int j){
 		suppressionPion(pion);
 		gridPanel.add(pion.getPion(), i, j);
+	}
+	
+	public void displayNewBoardPosition(ArrayList<Pion> pionsNoirs, ArrayList<Pion> pionsBlancs){
+		for(Pion pion: pionsNoirs){
+			gridPanel.add(pion.getPion(), pion.getCasePlateau().getCoordonneeX(), pion.getCasePlateau().getCoordonneeY());
+		}
+		for(Pion pion: pionsBlancs){
+			gridPanel.add(pion.getPion(), pion.getCasePlateau().getCoordonneeX(), pion.getCasePlateau().getCoordonneeY());
+		}
+	}
+	
+	public void fixBannerAfterDiscard(){
+		//on remet la bannière correctement si le joueur à annuler son coup après une victoire/défaite
+		this.aQuiLeTour.setText("C'est au tour de : ");
+		this.imageAQuiLeTour.setTranslateX(415);
 	}
 
 	public void makePionSelected(boolean isSelected, Pion pion){

@@ -424,14 +424,12 @@ public class EvaluatePosition {
 
 	/**
 	 * heuristique permettant de donner un score approximatif à un noeud
-	 * @param pionsJoueur1 la liste des pions du joueur appellant
-	 * @param pionsJoueur2 la liste des pions de son adversaire
 	 * @param pionConsidere le pion qui va se déplacer
 	 * @param caseConsideree la case sur laquelle il va se déplacer
 	 * @param plateau le plateau de jeu
 	 * @return un double, le score estimé de la position ce qui permet de trier par la suite tous les déplacement
 	 */
-	public static double getEstimatedScore(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Pion pionConsidere, Case caseConsideree, Case[][] plateau){
+	public static double getEstimatedScore(Pion pionConsidere, Case caseConsideree, Case[][] plateau){
 		//initialisation
 		Case caseOrigine = pionConsidere.getCasePlateau();
 		caseOrigine.setPion(null);

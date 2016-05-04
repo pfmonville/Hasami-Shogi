@@ -49,12 +49,21 @@ public class PlateauController {
 	public static Case[][] getCases() {
 		return cases;
 	}
+	
+	
+	public static void setCases(Case[][] plateau){
+		PlateauController.cases = plateau;
+	}
 
 
 
 
 	public ArrayList<Pion> getPionsBlancs() {
 		return pionsBlancs;
+	}
+	
+	public void setPionsBlancs(ArrayList<Pion> pionsBlancs){
+		this.pionsBlancs = pionsBlancs;
 	}
 
 
@@ -65,6 +74,9 @@ public class PlateauController {
 	}
 
 
+	public void setPionsNoirs(ArrayList<Pion> pionsNoirs){
+		this.pionsNoirs = pionsNoirs;
+	}
 
 
 	/**
@@ -375,7 +387,7 @@ public class PlateauController {
 			
 			//joue un son aléatoire parmi une banque de son stockée dans App.règles
 			if(!App.pv.getCouperSon()){
-				playSound(App.regles.getASound());
+				playSound(App.regles.getPlaySound());
 			}
 			return true;
 		}
@@ -430,7 +442,14 @@ public class PlateauController {
 				//On met à jour le nombre de pions pour le joueur
 				App.gameController.getJoueurs().get(App.regles.getNumeroJoueurBlanc()).loseOnePion();
 			}
+			
+			//joue un son aléatoire parmi une banque de son stockée dans App.règles
+			if(!App.pv.getCouperSon()){
+				playSound(App.regles.getCaptureSound());
+			}
 		}
+		
+		
 		
 		//mise à jour graphique du score
 		Platform.runLater(()-> App.pv.setTexteJ1(pionsNoirs.size()));

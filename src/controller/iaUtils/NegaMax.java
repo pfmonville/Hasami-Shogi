@@ -6,15 +6,17 @@ import java.util.Collections;
 import controller.IAController;
 import controller.PlateauController;
 import model.Case;
+import model.Deplacement;
 import model.Joueur;
 import model.Pion;
+import model.Score;
 
 public class NegaMax {
 
 	private static ArrayList<Pion> pionsIA = new ArrayList<>();
 	private static ArrayList<Pion> pionsAdversaire = new ArrayList<>();
 	private static int maxProfondeur = -1;
-	private static ArrayList<IAController.ScoreCoupsInitiaux> coupsJouables = new ArrayList<>();
+	private static ArrayList<Score> coupsJouables = new ArrayList<>();
 	private static Joueur iaAppellante;
 	private static Case caseAlreadyPlayed;
 	private static Pion pionAlreadyPlayed;
@@ -55,7 +57,7 @@ public class NegaMax {
 			//**************************************************************
 			//OBTENTION DE TOUS LES DEPLACEMENTS
 
-			ArrayList<IAController.Deplacement> listeTousDeplacement = new ArrayList<>();
+			ArrayList<Deplacement> listeTousDeplacement = new ArrayList<>();
 			boolean canMove = false;
 			//pour chaque pion jouable
 			if(numeroJoueurActuel == pionsIA.get(0).getNumeroJoueur()){
@@ -66,8 +68,8 @@ public class NegaMax {
 						canMove = true;
 					}
 					for(Case casePlateau:deplacementPossibles){
-						IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
-						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+						Deplacement deplacement = new Deplacement(pion, casePlateau);
+						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pion, casePlateau, PlateauController.getCases()));
 						listeTousDeplacement.add(deplacement);
 					}
 				}
@@ -79,8 +81,8 @@ public class NegaMax {
 						canMove = true;
 					}
 					for(Case casePlateau:deplacementPossibles){
-						IAController.Deplacement deplacement = new IAController.Deplacement(pion, casePlateau);
-						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pionsIA, pionsAdversaire, pion, casePlateau, PlateauController.getCases()));
+						Deplacement deplacement = new Deplacement(pion, casePlateau);
+						deplacement.setEstimatedScore(EvaluatePosition.getEstimatedScore(pion, casePlateau, PlateauController.getCases()));
 						listeTousDeplacement.add(deplacement);
 					}
 				}
@@ -102,7 +104,7 @@ public class NegaMax {
 				bestValue = -negaMax(-beta, -alpha, profondeur + 1, getAutreJoueur(numeroJoueurActuel));
 			}
 			else{
-				for(IAController.Deplacement deplacement:listeTousDeplacement){
+				for(Deplacement deplacement:listeTousDeplacement){
 					Case caseOrigine = deplacement.getPion().getCasePlateau();
 					double scoreActuel = 0;
 					if(profondeur == 0 && caseAlreadyPlayed == deplacement.getCase() && pionAlreadyPlayed == deplacement.getPion()){
@@ -145,7 +147,7 @@ public class NegaMax {
 
 					//si on à profondeur 0, on sauve le coup potentiel dans une liste des coups à jouer par l'ia
 					if(profondeur == 0){
-						coupsJouables.add(new IAController.ScoreCoupsInitiaux(deplacement.getPion(), deplacement.getCase(), scoreActuel));
+						coupsJouables.add(new Score(deplacement.getPion(), deplacement.getCase(), scoreActuel));
 					}
 
 					//**************************************************************
@@ -246,9 +248,9 @@ public class NegaMax {
 	 * 
 	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
 	 */
-	public static IAController.ScoreCoupsInitiaux getBestMove(){
-		IAController.ScoreCoupsInitiaux best = coupsJouables.get(0);
-		for(IAController.ScoreCoupsInitiaux sci: coupsJouables){
+	public static Score getBestMove(){
+		Score best = coupsJouables.get(0);
+		for(Score sci: coupsJouables){
 			//autre version pour avoir des parties différentes (avis final: très mauvais sur la qualité de l'ia)
 			if(setup.isRandomisedAfter()){
 				sci.randomizeScore();
@@ -271,7 +273,7 @@ public class NegaMax {
 	 * @param setup classe spécial permettant de régler la fonction d'évaluation(combien de coefs pris en compte, les valeurs des coefs, si on randomise après)
 	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
 	 */
-	public static IAController.ScoreCoupsInitiaux launchNegaMax(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Joueur iaAppellante, EvaluatePosition.Setup setup){
+	public static Score launchNegaMax(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Joueur iaAppellante, EvaluatePosition.Setup setup){
 		NegaMax.pionsIA = pionsIA;
 		NegaMax.pionsAdversaire = pionsAdversaire;
 		NegaMax.maxProfondeur = maxProfondeur;

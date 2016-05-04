@@ -15,6 +15,7 @@ import mainPackage.App;
 import model.Case;
 import model.Joueur;
 import model.Pion;
+import model.Score;
 
 public class IAController implements PlayerController, Cloneable, Runnable{
 	private Joueur IA;
@@ -48,7 +49,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			
 			//initialisation de toutes les variables
 			Object[] result;
-			ScoreCoupsInitiaux sci = null;
+			Score sci = null;
 			int niveau = IA.getNiveau();
 			
 			switch (niveau){
@@ -107,7 +108,14 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 			setPreviouslyPlayed(caseWhereToMove, pionToMove);
 			App.gameController.getPlateauController().deplacerPion(pionToMove, caseWhereToMove, true);
 			ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionToMove, PlateauController.getCases());
-			App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
+			if(pionsASupprimer.size() > 0){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
+			}
 			
 		}else{
 			String couleurJoueur;
@@ -132,13 +140,21 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 		if(pionsJoueur1.size() + pionsJoueur2.size() <= 8){
 			profondeurMax++;
 		}
-		ScoreCoupsInitiaux sci = null;
+		Score sci = null;
 		sci = NegaMax.launchNegaMax(pionsJoueur1, pionsJoueur2, profondeurMax, null, null, joueur1, new EvaluatePosition.Setup(true, 40, true, 1, true, 4.5, false));
 		Pion pionToMove = sci.getPion();
 		Case caseWhereToMove = sci.getCase();
 		App.gameController.getPlateauController().deplacerPion(pionToMove, caseWhereToMove, true);
 		ArrayList<Pion> pionsASupprimer = PlateauController.verifierCapture(pionToMove, PlateauController.getCases());
-		App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
+		if(pionsASupprimer.size() > 0){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			App.gameController.getPlateauController().supprimerPion(pionsASupprimer);
+		}
+		
 		App.gameController.finTour();
 	}
 	
@@ -377,84 +393,4 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 		IAController.pionsHumain2 = pionsHumain2;
 		IAController.humain1 = humain1;
 	}
-	
-	
-	public static class ScoreCoupsInitiaux{
-		private double score;
-		private Pion pion;
-		private Case casePlateau;
-		
-		public ScoreCoupsInitiaux(Pion pion, Case casePlateau, Double score) {
-			this.pion = pion;
-			this.casePlateau = casePlateau;
-			this.score = score;
-		}
-		
-		public Pion getPion(){
-			return pion;
-		}
-		
-		public Case getCase(){
-			return casePlateau;
-		}
-		
-		public double getScore(){
-			return score;
-		}
-		
-		public void randomizeScore(){
-			this.score += (Math.random()*0.01) - 0.005;
-		}
-	}
-	
-	
-	public static class Deplacement implements Comparable<Deplacement>{
-		private Pion pion;
-		private Case casePlateau;
-		private double estimatedScore;
-		
-		//TODO: a virer apres
-		private ArrayList<Case>cases;
-		
-		public Deplacement(Pion pion, Case casePlateau){
-			this.pion = pion;
-			this.casePlateau = casePlateau;
-			this.estimatedScore = -EvaluatePosition.maxValuePossible();
-		}
-				
-		public Pion getPion(){
-			return pion;
-		}
-		
-		public void setEstimatedScore(double score){
-			this.estimatedScore = score;
-		}
-		
-		public double getEstimatedScore(){
-			return this.estimatedScore;
-		}
-		
-		public Case getCase(){
-			return this.casePlateau;
-		}
-		
-		public void setCase(Case casePlateau){
-			this.casePlateau = casePlateau;
-		}
-		
-		public ArrayList<Case> getCases(){
-			return this.cases;
-		}
-
-		@Override
-		public int compareTo(Deplacement o) {
-			if(this.estimatedScore - o.getEstimatedScore() > 0){
-				return 1;
-			}else if(this.estimatedScore - o.getEstimatedScore() < 0){
-				return -1;
-			}
-			return 0;
-		}
-	}
-	
 }
