@@ -279,9 +279,9 @@ créer un bouton d'information permettant d'avoir accès:
 
 #### UI
 réorganiser les boutons (réglages, son, informations dans cette ordre en haut à droite et jouerPourHumain à l'endroit du gif de réflexion).    
-~~créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'ils font.~~ (ajouté le 26/04/2016 dans la 1.2)    
-~~créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé.~~ (ajouté le 26/04/2016 dans la 1.2.1)
-~~améliorer l'affichage de la capture d'un pion: 0.5 sec de pause + son de capture~~ (ajouté le 04/05/2016 dans la 1.2.2)
+~~créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'ils font.~~ (ajouté le 26/04/2016 dans la 1.2)        
+~~créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé.~~ (ajouté le 26/04/2016 dans la 1.2.1)    
+~~améliorer l'affichage de la capture d'un pion: 0.5 sec de pause + son de capture~~ (ajouté le 04/05/2016 dans la 1.2.2)    
 
 
 #### Intelligence artificielle
