@@ -43,7 +43,7 @@ public class EvaluatePosition {
 	 * @return valeur maximale de la fonction d'évalutation
 	 */
 	public static double maxValuePossible(){
-		return Double.MAX_VALUE;
+		return Double.MAX_VALUE - 2; // le -2 empeche un bug d'overflow
 	}
 
 	/**
