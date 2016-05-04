@@ -16,6 +16,7 @@ Vous pouvez aussi importer le projet sous eclipse et le lancer à partir de celu
 Le hasami Shogi est une des variations les plus populaires du Shogi au Japon.
 Le mot *"hasami"* signifie *"pince"* en rapport avec la technique de prise en tenaille utilisée dans ce jeu.
 Le jeu se déroule sur un plateau de cases 9x9.
+Chaque joueur possède 9 pions placés sur la première ligne en face de lui.
 
 ### But du jeu:
 Chaque joueur doit essayer de capturer les pièces adverses en déplaçant les siennes.
@@ -149,7 +150,8 @@ Pour cela nous utilisons un algorithme de parcours d'arbre et une fonction d'év
 
 ### Algorithmes de recherches
 
-Nous avons utilisé différents algorithmes de recherche afin de trouver la meilleure suite de coups à jouer.
+Nous avons utilisé différents algorithmes de recherche afin de trouver la meilleure suite de coups à jouer. De plus, une heuristique est utilisée à chaque noeud afin de trier les branches et accélérer les coupes pour alpha-beta.    
+L'heuristique est simplement le nombre de pions du joueur moins ceux de son adversaire si le coup est joué, ce qui permet de considérer les "killer-move" en premier.
 
 #### Minimax
     
@@ -280,6 +282,7 @@ réorganiser les boutons (réglages, son, informations dans cette ordre en haut 
 ~~créer un popup dans la fenêtre principale au survol des boutons afin de savoir ce qu'ils font.~~ (ajouté le 26/04/2016 dans la 1.2)    
 ~~créer une popup dans la fenêtre principale lorsqu'un joueur est forcé de passer afin de notifier qui a passé.~~ (ajouté le 26/04/2016 dans la 1.2.1)
 ~~améliorer l'affichage de la capture d'un pion: 0.5 sec de pause + son de capture~~ (ajouté le 04/05/2016 dans la 1.2.2)
+
 
 #### Intelligence artificielle
 
