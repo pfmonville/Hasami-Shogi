@@ -125,11 +125,11 @@ public class NegaMax {
 
 
 					//si cela entraine une victoire le score actuel devient MAXVALUE et on ne continue pas à explorer l'arbre
-					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
-						scoreActuel = EvaluatePosition.maxValuePossible();
-					}else{
+//					if(IAController.isGameOver(pionsIA, pionsAdversaire)){
+//						scoreActuel = EvaluatePosition.maxValuePossible();
+//					}else{
 						scoreActuel = -negaMax(-beta, -alpha, profondeur + 1, getAutreJoueur(numeroJoueurActuel));	
-					}
+//					}
 
 
 
