@@ -2,14 +2,14 @@ package model;
 
 import mainPackage.App;
 
-public class Joueur {
+public class Player {
 	private boolean isPremier;
 	private boolean isHumain;
 	private int niveau;
 	private int nbPions;
 	private int numeroJoueur; 
 	
-	public Joueur(boolean isPremier, boolean isHumain, int niveau, int nbPions) {
+	public Player(boolean isPremier, boolean isHumain, int niveau, int nbPions) {
 		this.isPremier = isPremier;
 		this.isHumain = isHumain;
 		this.niveau = niveau;

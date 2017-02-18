@@ -10,10 +10,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Regles;
+import model.Rules;
 import model.Theme;
 import view.OptionView;
-import view.PlateauView;
+import view.GameView;
 import view.StartView;
 
 public class App extends Application {
@@ -23,7 +23,7 @@ public class App extends Application {
 	//Instancie les vues
 	public static OptionView ov;
 	public static StartView sv;
-	public static PlateauView pv;
+	public static GameView pv;
 	
 	public static Scene scene;
 	public static Cursor oldCursor;
@@ -32,7 +32,7 @@ public class App extends Application {
 	public static GameController gameController = new GameController();
 	
 	//instancie la regle du jeu
-	public static Regles regles = new Regles();
+	public static Rules regles = new Rules();
 	
 	//Instancie le thème pour le plateau et les pions
 	public static Theme theme = new Theme();
@@ -45,7 +45,7 @@ public class App extends Application {
 	public void start(Stage stage) throws IOException{
 		mainStage = stage;
 		ov = new OptionView(600, 600);
-		pv = new PlateauView(600, 600);
+		pv = new GameView(600, 600);
 		sv = new StartView(600, 600);
 
 		mainLayout = new Pane();
@@ -65,7 +65,7 @@ public class App extends Application {
 	
 	public static void reset(){
 		ov = new OptionView(600, 600);
-		pv = new PlateauView(600, 600);
+		pv = new GameView(600, 600);
 		sv = new StartView(600, 600);
 		gameController.finish();
 	}
@@ -74,7 +74,7 @@ public class App extends Application {
 		//supprimer l'ancien PlateauView de la vue
 		mainLayout.getChildren().remove(pv.getPanel());
 		//recharger le PlateauView
-		pv = new PlateauView(600, 600);
+		pv = new GameView(600, 600);
 		//on relance le jeu
 		gameController.restart();
 	}

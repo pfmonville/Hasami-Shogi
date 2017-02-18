@@ -19,7 +19,7 @@ import mainPackage.App;
 import model.Case;
 import model.Pion;
 
-public class PlateauView extends View{
+public class GameView extends View{
 
 	@FXML
 	private Pane panel;
@@ -44,7 +44,7 @@ public class PlateauView extends View{
 	private Button rejouerPartie;
 
 
-	public PlateauView(int x, int y){
+	public GameView(int x, int y){
 		super(x, y);
 	}
 
@@ -117,19 +117,6 @@ public class PlateauView extends View{
 		//***************************************************************//
 
 
-
-		
-		//***************************************************************//
-		// DEFINITIONS DES TOOLTIPS
-		final Tooltip tooltipStat = new Tooltip("pions restants / pions initiaux");
-		final Tooltip tooltipFaireJouerIA = new Tooltip("Faire jouer l'IA pour vous");
-		final Tooltip tooltipCouperSon = new Tooltip("Couper/Remettre le son");
-		final Tooltip tooltipAnnulerCoup = new Tooltip("Annuler le coup pr√©c√©dent");
-	
-		//***************************************************************//
-
-
-
 		//***************************************************************//
 		//INDIQUER STATISTIQUES DE LA PARTIE EN COURS
 
@@ -149,7 +136,7 @@ public class PlateauView extends View{
 		pionsPerdusJ1.setTranslateX(joueur1.getTranslateX() + decalageX);
 		pionsPerdusJ1.setTranslateY(joueur1.getTranslateY() + decalageY);
 		pionsPerdusJ1.setId("stat");
-		Tooltip.install(pionsPerdusJ1, tooltipStat);
+		Tooltip.install(pionsPerdusJ1, super.createStandardTooltip("pions restants / pions initiaux"));
 
 		//Joueur 2
 		ImageView joueur2 = new ImageView(new Image(App.theme.getImageJoueurBlanc()));
@@ -163,7 +150,7 @@ public class PlateauView extends View{
 		pionsPerdusJ2.setTranslateX(joueur2.getTranslateX() + decalageX);
 		pionsPerdusJ2.setTranslateY(joueur2.getTranslateY() + decalageY);
 		pionsPerdusJ2.setId("stat");
-		Tooltip.install(pionsPerdusJ2, tooltipStat);
+		Tooltip.install(pionsPerdusJ2, super.createStandardTooltip("pions restants / pions initiaux"));
 
 		//***************************************************************//
 
@@ -275,7 +262,7 @@ public class PlateauView extends View{
 		IVIA.setFitWidth(20);
 		Button faireJouerIA = new Button();
 		
-		faireJouerIA.setTooltip(tooltipFaireJouerIA);
+		faireJouerIA.setTooltip(super.createStandardTooltip("Faire jouer l'IA pour vous"));
 		faireJouerIA.setGraphic(IVIA);
 		faireJouerIA.setTranslateX(520);
 		faireJouerIA.setTranslateY(11);
@@ -313,7 +300,7 @@ public class PlateauView extends View{
 		Image sonCoupe = new Image("image/sonNonCoupe.png");
 		Button couperSon = new Button();
 		
-		couperSon.setTooltip(tooltipCouperSon);
+		couperSon.setTooltip(super.createStandardTooltip("Couper/Remettre le son"));
 		couperSon.setId("boutonInvisible");
 		couperSon.setGraphic(new ImageView(sonCoupe));
 		couperSon.setTranslateX(560);
@@ -334,7 +321,7 @@ public class PlateauView extends View{
 		Image imageAnnulerCoup = new Image("image/annulerCoup.png");
 		Button annulerCoup = new Button();
 		
-		annulerCoup.setTooltip(tooltipAnnulerCoup);
+		annulerCoup.setTooltip(super.createStandardTooltip("Annuler le coup prÈcÈdent"));
 		annulerCoup.setId("boutonInvisible");
 		annulerCoup.setGraphic(new ImageView(imageAnnulerCoup));
 		annulerCoup.setTranslateX(480);
@@ -462,7 +449,7 @@ public class PlateauView extends View{
 
 	public void setWinnerTextInTopBanner(int joueur){
 		//r√©gler le texte
-		this.aQuiLeTour.setText("a gagn√© !");
+		this.aQuiLeTour.setText("a gagnÈ !");
 
 		//r√©gler l'icone du jeu
 		Image imageGagnant;

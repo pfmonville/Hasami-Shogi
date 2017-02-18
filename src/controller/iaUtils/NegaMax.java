@@ -7,7 +7,7 @@ import controller.IAController;
 import controller.PlateauController;
 import model.Case;
 import model.Deplacement;
-import model.Joueur;
+import model.Player;
 import model.Pion;
 import model.Score;
 
@@ -17,7 +17,7 @@ public class NegaMax {
 	private static ArrayList<Pion> pionsAdversaire = new ArrayList<>();
 	private static int maxProfondeur = -1;
 	private static ArrayList<Score> coupsJouables = new ArrayList<>();
-	private static Joueur iaAppellante;
+	private static Player iaAppellante;
 	private static Case caseAlreadyPlayed;
 	private static Pion pionAlreadyPlayed;
 	
@@ -273,7 +273,7 @@ public class NegaMax {
 	 * @param setup classe spécial permettant de régler la fonction d'évaluation(combien de coefs pris en compte, les valeurs des coefs, si on randomise après)
 	 * @return le meilleur des coups sous forme de ScoreCoupsInitiaux
 	 */
-	public static Score launchNegaMax(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Joueur iaAppellante, EvaluatePosition.Setup setup){
+	public static Score launchNegaMax(ArrayList<Pion> pionsIA, ArrayList<Pion> pionsAdversaire, int maxProfondeur, Case caseAlreadyPlayed, Pion pionAlreadyPlayed,Player iaAppellante, EvaluatePosition.Setup setup){
 		NegaMax.pionsIA = pionsIA;
 		NegaMax.pionsAdversaire = pionsAdversaire;
 		NegaMax.maxProfondeur = maxProfondeur;

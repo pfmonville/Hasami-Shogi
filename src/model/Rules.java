@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Regles {
+public class Rules {
 	private boolean capturerDiagonale;
 	private boolean capturerCoins;
 	private int nbPiecesAvantDefaite;
@@ -16,7 +16,7 @@ public class Regles {
 	private ArrayList<String> captureSounds = new ArrayList<>();
 
 	
-	public Regles(){
+	public Rules(){
 		this.capturerDiagonale = false;
 		this.capturerCoins = false;
 		this.nbPiecesAvantDefaite = 2;
@@ -31,7 +31,7 @@ public class Regles {
 		captureSounds.add("sound/droping-pawn-2.aiff");
 	}
 	
-	public Regles(boolean capturerDiagonale, boolean capturerCoins, int nbPiecesAvantDefaite, boolean ecartAvantDefaite, int nbEcartAvantDefaite){
+	public Rules(boolean capturerDiagonale, boolean capturerCoins, int nbPiecesAvantDefaite, boolean ecartAvantDefaite, int nbEcartAvantDefaite){
 		this.capturerCoins = capturerCoins;
 		this.capturerDiagonale = capturerDiagonale;
 		this.nbPiecesAvantDefaite = nbPiecesAvantDefaite;

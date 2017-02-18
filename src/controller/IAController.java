@@ -13,12 +13,12 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import mainPackage.App;
 import model.Case;
-import model.Joueur;
+import model.Player;
 import model.Pion;
 import model.Score;
 
 public class IAController implements PlayerController, Cloneable, Runnable{
-	private Joueur IA;
+	private Player IA;
 	private ArrayList<Pion> pionsIA;
 	private ArrayList<Pion> pionsAdversaire;
 	private Pion pionToMove = null;
@@ -31,9 +31,9 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	private static boolean playTemporarilyForHuman = false;
 	private static ArrayList<Pion> pionsHumain1;
 	private static ArrayList<Pion> pionsHumain2;
-	private static Joueur humain1;
+	private static Player humain1;
 	
-	public IAController(Joueur joueur){
+	public IAController(Player joueur){
 		this.IA = joueur;
 	}
 	
@@ -135,7 +135,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	 * @param pionsJoueur2 les pions du joueur2
 	 * @param joueur1 la classe Joueur du joueur1
 	 */
-	public void  playAMoveForHuman(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Joueur joueur1){
+	public void  playAMoveForHuman(ArrayList<Pion> pionsJoueur1, ArrayList<Pion> pionsJoueur2, Player joueur1){
 		int profondeurMax = 4;
 		if(pionsJoueur1.size() + pionsJoueur2.size() <= 8){
 			profondeurMax++;
@@ -245,7 +245,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 	 * 
 	 * @return la variable Joueur représentant ce controlleur
 	 */
-	public Joueur getInformation(){
+	public Player getInformation(){
 		return this.IA;
 	}
 	
@@ -387,7 +387,7 @@ public class IAController implements PlayerController, Cloneable, Runnable{
 		//App.pv.resetCursor();
 	}
 	
-	public void initToPlayForHuman(ArrayList<Pion> pionsHumain1, ArrayList<Pion> pionsHumain2, Joueur humain1){
+	public void initToPlayForHuman(ArrayList<Pion> pionsHumain1, ArrayList<Pion> pionsHumain2, Player humain1){
 		IAController.playTemporarilyForHuman = true;
 		IAController.pionsHumain1 = pionsHumain1;
 		IAController.pionsHumain2 = pionsHumain2;

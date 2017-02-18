@@ -9,12 +9,12 @@ import javafx.util.Duration;
 import mainPackage.App;
 import model.Case;
 import model.History;
-import model.Joueur;
+import model.Player;
 import model.Pion;
 
 
 public class GameController {
-	private ArrayList<Joueur> joueurs = new ArrayList<>();
+	private ArrayList<Player> joueurs = new ArrayList<>();
 	private IAController IAForHuman;
 	private static int joueurActuel = 0;
 	private ArrayList<PlayerController> controllers = new ArrayList<>();
@@ -53,7 +53,7 @@ public class GameController {
 	 * 
 	 * @return la liste des joueurs sous forme de Joueur
 	 */
-	public ArrayList<Joueur> getJoueurs() {
+	public ArrayList<Player> getJoueurs() {
 		return joueurs;
 	}
 	
@@ -69,9 +69,9 @@ public class GameController {
 		String nvj2 = App.ov.getNvj2().getSelectedToggle().getUserData().toString();
 		boolean isHumain;
 		isHumain = (iahuJ1 == "ia") ? false: true;
-		joueurs.add(new Joueur(true, isHumain, Double.valueOf(nvj1).intValue(), 9));
+		joueurs.add(new Player(true, isHumain, Double.valueOf(nvj1).intValue(), 9));
 		isHumain = (iahuJ2 == "ia") ? false: true;
-		joueurs.add(new Joueur(false, isHumain, Double.valueOf(nvj2).intValue(), 9));
+		joueurs.add(new Player(false, isHumain, Double.valueOf(nvj2).intValue(), 9));
 	}
 	
 	
@@ -183,6 +183,11 @@ public class GameController {
 			Platform.runLater(()-> App.pv.switchImageJoueur(joueurActuel));
 			//si le prochain joueur est une IA 
 			if(!this.isActualJoueurHuman(joueurActuel)){
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				Thread thread = new Thread((IAController)(controllers.get(joueurActuel)));
 				thread.start();
 			}else if (! ((HumanController) controllers.get(joueurActuel)).canPlayAMove()){
@@ -278,7 +283,7 @@ public class GameController {
 	private void launchControllers(){
 		
 		plateauController = new PlateauController();
-		for(Joueur joueur : joueurs){
+		for(Player joueur : joueurs){
 			if (joueur.isHumain()){
 				controllers.add(new HumanController(joueur));
 			}

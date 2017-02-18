@@ -4,23 +4,23 @@ import java.util.ArrayList;
 
 import mainPackage.App;
 import model.Case;
-import model.Joueur;
+import model.Player;
 import model.Pion;
 
 public class HumanController implements PlayerController, Runnable{
 	private Case casePlateau;
 	private Pion actualPion;
-	private Joueur joueur;
+	private Player joueur;
 	
 	/**
 	 * 
 	 * @return récupère le joueur
 	 */
-	public Joueur getJoueur() {
+	public Player getJoueur() {
 		return joueur;
 	}
 
-	public HumanController(Joueur joueur) {
+	public HumanController(Player joueur) {
 		super();
 		actualPion = null;
 		this.joueur = joueur;
